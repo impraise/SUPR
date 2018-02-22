@@ -15,5 +15,6 @@ protocol ParamUseCase: UseCase {
     associatedtype Param
     associatedtype Response
     typealias ParamUseCaseCallback = (Result<Response>) -> Void
-    func doYourJob(param: Param, callback: ParamUseCaseCallback?)
+    var callback: ParamUseCaseCallback? { get set }
+    func doYourJob(param: Param)
 }
