@@ -8,7 +8,7 @@
 
 import RxSwift
 
-class UseCase<Object> : DispoableUseCase {
+class UseCase<Object> : DisposableUseCase {
     
     let subscriptions = CompositeDisposable()
     

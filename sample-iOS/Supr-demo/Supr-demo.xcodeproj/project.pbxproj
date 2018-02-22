@@ -13,6 +13,7 @@
 		5179085F203ED2D900461F7F /* DataResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5179085E203ED2D900461F7F /* DataResult.swift */; };
 		51790861203ED2FB00461F7F /* DataResultState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51790860203ED2FB00461F7F /* DataResultState.swift */; };
 		51790863203ED64800461F7F /* SimpleUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51790862203ED64800461F7F /* SimpleUseCase.swift */; };
+		51790865203EDB0900461F7F /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51790864203EDB0900461F7F /* Scene.swift */; };
 		51E99629203C690D00C0BE9E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E99628203C690D00C0BE9E /* AppDelegate.swift */; };
 		51E9962B203C690D00C0BE9E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E9962A203C690D00C0BE9E /* ViewController.swift */; };
 		51E9962E203C690D00C0BE9E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 51E9962C203C690D00C0BE9E /* Main.storyboard */; };
@@ -45,6 +46,7 @@
 		5179085E203ED2D900461F7F /* DataResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataResult.swift; sourceTree = "<group>"; };
 		51790860203ED2FB00461F7F /* DataResultState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataResultState.swift; sourceTree = "<group>"; };
 		51790862203ED64800461F7F /* SimpleUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleUseCase.swift; sourceTree = "<group>"; };
+		51790864203EDB0900461F7F /* Scene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
 		51E99625203C690D00C0BE9E /* Supr-demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Supr-demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		51E99628203C690D00C0BE9E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		51E9962A203C690D00C0BE9E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 				51E99651203C757800C0BE9E /* Interaction.swift */,
 				51E99653203C75B000C0BE9E /* InteractionType.swift */,
 				51E99655203C763E00C0BE9E /* Presenter.swift */,
+				51790864203EDB0900461F7F /* Scene.swift */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -428,6 +431,7 @@
 				51790863203ED64800461F7F /* SimpleUseCase.swift in Sources */,
 				51790861203ED2FB00461F7F /* DataResultState.swift in Sources */,
 				5179085B203ECF8200461F7F /* DisposableUseCase.swift in Sources */,
+				51790865203EDB0900461F7F /* Scene.swift in Sources */,
 				51E99656203C763E00C0BE9E /* Presenter.swift in Sources */,
 				51E9964E203C738900C0BE9E /* ViewModelEntity.swift in Sources */,
 				51E99652203C757800C0BE9E /* Interaction.swift in Sources */,

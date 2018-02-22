@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  SimpleUseCase.swift
 //  Supr-demo
 //
 //  Created by Arnaud Camus on 2/22/18.
@@ -7,8 +7,8 @@
 //
 
 class SimpleUseCase<T>: UseCase<T> {
+
     func doYourJob() {
-        fatalError("Not implemented")
     }
 }
 

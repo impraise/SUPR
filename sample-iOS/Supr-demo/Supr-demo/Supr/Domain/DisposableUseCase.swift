@@ -6,6 +6,6 @@
 //  Copyright © 2018 Impraise. All rights reserved.
 //
 
-protocol DispoableUseCase {
+protocol DisposableUseCase {
     func dispose()
 }
