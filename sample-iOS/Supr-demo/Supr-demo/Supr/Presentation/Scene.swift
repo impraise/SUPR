@@ -7,15 +7,20 @@
 //
 
 protocol Scene {
-    var useCases: [DisposableUseCase] { get set}
-    
-    func onInteraction(interaction: Interaction)
+    associatedtype InteractionType
+    typealias DisposableUseCase = UseCase & Disposable
+    var useCases: [DisposableUseCase] { get set }
+    func onInteraction(interaction: InteractionType)
 }
 
 extension Scene {
     func onCleared() {
-        self.useCases.forEach {
-            $0.dispose()
+        self.useCases.forEach { (disposable) in
+            disposable.dispose()
         }
     }
+}
+
+protocol Disposable {
+    func dispose()
 }
