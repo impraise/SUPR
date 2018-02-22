@@ -6,9 +6,6 @@
 //  Copyright © 2018 Impraise. All rights reserved.
 //
 
-class SimpleUseCase<T>: UseCase<T> {
-
-    func doYourJob() {
-    }
+protocol SimpleUseCase {
+    func doYourJob()
 }
-

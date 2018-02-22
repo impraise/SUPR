@@ -8,16 +8,6 @@
 
 import RxSwift
 
-class UseCase<Object> : DisposableUseCase {
-    
-    let subscriptions = CompositeDisposable()
-    
-    var callback: ((_ result: Object) -> Void)?
-    
-    func dispose() {
-        if !subscriptions.isDisposed {
-            subscriptions.dispose()
-        }
-    }
-    
+protocol UseCase {
+    var subscriptions: CompositeDisposable { get set }
 }
