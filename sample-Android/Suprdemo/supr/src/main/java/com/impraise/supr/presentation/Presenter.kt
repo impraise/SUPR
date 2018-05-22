@@ -9,5 +9,5 @@ interface Presenter<in ParamType, ResponseType> {
 
     val viewModelStream: LiveData<ViewModelEntity<ResponseType, String>>
 
-    fun present(state: ViewModelEntityState, data: ParamType)
+    fun present(state: ViewModelEntityState, param: ParamType)
 }

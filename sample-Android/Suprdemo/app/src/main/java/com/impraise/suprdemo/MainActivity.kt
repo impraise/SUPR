@@ -1,4 +1,4 @@
-package impraise.com.supr_demo
+package com.impraise.suprdemo
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
