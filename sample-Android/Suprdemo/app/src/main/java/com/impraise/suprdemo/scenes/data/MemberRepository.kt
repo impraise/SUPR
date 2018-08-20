@@ -1,13 +1,13 @@
 package com.impraise.suprdemo.scenes.data
 
-import com.impraise.supr.data.DataResultList
+import com.impraise.supr.data.ResultList
 import com.impraise.suprdemo.scenes.data.model.Member
-import io.reactivex.Observable
+import io.reactivex.Flowable
 
 /**
  * Created by guilhermebranco on 3/10/18.
  */
 interface MemberRepository {
 
-    fun all(): Observable<DataResultList<Member>>
+    fun all(): Flowable<ResultList<Member>>
 }

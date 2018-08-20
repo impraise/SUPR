@@ -1,19 +1,19 @@
 package com.impraise.suprdemo.scenes.data
 
-import com.impraise.supr.data.DataResultList
+import com.impraise.supr.data.ResultList
 import com.impraise.suprdemo.scenes.data.model.Member
-import io.reactivex.Observable
+import io.reactivex.Flowable
 
 /**
  * Created by guilhermebranco on 3/13/18.
  */
 class InMemoryMemberRepository: MemberRepository {
 
-    override fun all(): Observable<DataResultList<Member>> {
+    override fun all(): Flowable<ResultList<Member>> {
         val members = mutableListOf<Member>()
         for (index in 1..40) {
             members.add(Member(index.toString(), index.toString()))
         }
-        return Observable.just(DataResultList.success(members))
+        return Flowable.just(ResultList.Success(members))
     }
 }

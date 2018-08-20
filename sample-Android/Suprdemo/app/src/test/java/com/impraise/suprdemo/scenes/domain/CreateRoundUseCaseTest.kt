@@ -1,5 +1,6 @@
 package com.impraise.suprdemo.scenes.domain
 
+import com.impraise.supr.data.Result
 import com.impraise.supr.domain.DomainResultState
 import com.impraise.suprdemo.scenes.data.model.Member
 import com.impraise.suprdemo.scenes.domain.model.Option
@@ -13,7 +14,7 @@ import org.junit.Test
 class CreateRoundUseCaseTest {
 
     companion object {
-        private val NUMBER_OF_OPTIONS = 4
+        private const val NUMBER_OF_OPTIONS = 4
     }
 
     private lateinit var useCase: CreateRoundUseCase
@@ -30,8 +31,8 @@ class CreateRoundUseCaseTest {
         val testObserver = useCase.get(emptyList()).test()
 
         testObserver.assertComplete()
-        val domainResult = testObserver.values().first()
-        assertEquals(DomainResultState.Error, domainResult.state)
+        val result = testObserver.values().first()
+        assertTrue(result is Result.Success)
     }
 
     @Test
@@ -40,13 +41,13 @@ class CreateRoundUseCaseTest {
         val testObserver = useCase.get(members).test()
 
         testObserver.assertComplete()
-        val domainResult = testObserver.values().first()
-        assertEquals(DomainResultState.Success, domainResult.state)
-        val round = domainResult?.data
-        assertEquals(NUMBER_OF_OPTIONS, round?.options?.size)
-        val correctOption = round?.options?.find { it is Option.Correct }
+        val result = testObserver.values().first()
+        assertTrue(result is Result.Success)
+        val round = result as Result.Success
+        assertEquals(NUMBER_OF_OPTIONS, round.data.options.size)
+        val correctOption = round.data.options.find { it is Option.Correct }
         val correct = members.find { it.name == correctOption?.name }
-        assertEquals(round?.avatarUrl, correct?.avatarUrl)
+        assertEquals(round.data.avatarUrl, correct?.avatarUrl)
     }
 
     private fun members(): List<Member> {

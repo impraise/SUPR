@@ -1,7 +1,7 @@
 package com.impraise.suprdemo.scenes.domain
 
+import com.impraise.supr.data.Result
 import com.impraise.supr.domain.DomainLayerException
-import com.impraise.supr.domain.DomainResult
 import com.impraise.supr.domain.ReactiveUseCase
 import com.impraise.suprdemo.scenes.data.model.Member
 import com.impraise.suprdemo.scenes.domain.model.Option
@@ -12,11 +12,11 @@ import java.util.*
 /**
  * Created by guilhermebranco on 3/11/18.
  */
-class CreateRoundUseCase(private val numberOfOptions: Int = 4): ReactiveUseCase<List<Member>, DomainResult<Round>> {
+class CreateRoundUseCase(private val numberOfOptions: Int = 4): ReactiveUseCase<List<Member>, Result<Round>> {
 
-    override fun get(param: List<Member>): Single<DomainResult<Round>> {
-        return if (param.size < numberOfOptions) Single.just(DomainResult.error(DomainLayerException(), null))
-        else Single.just(DomainResult.success(createRound(param)))
+    override fun get(param: List<Member>): Single<Result<Round>> {
+        return if (param.size < numberOfOptions) Single.just(Result.Error(DomainLayerException(), null))
+        else Single.just(Result.Success(createRound(param)))
     }
 
     private fun createRound(members: List<Member>): Round {

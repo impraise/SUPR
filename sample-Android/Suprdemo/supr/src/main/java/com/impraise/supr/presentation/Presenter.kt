@@ -1,4 +1,4 @@
-package com.impraise.common.presentation
+package com.impraise.supr.presentation
 
 import android.arch.lifecycle.LiveData
 
@@ -7,7 +7,9 @@ import android.arch.lifecycle.LiveData
  */
 interface Presenter<in ParamType, ResponseType> {
 
-    val viewModelStream: LiveData<ViewModelEntity<ResponseType, String>>
+    val viewModelStream: LiveData<ResponseType>
 
-    fun present(state: ViewModelEntityState, param: ParamType)
+    fun present(param: ParamType)
+
+    fun loading()
 }

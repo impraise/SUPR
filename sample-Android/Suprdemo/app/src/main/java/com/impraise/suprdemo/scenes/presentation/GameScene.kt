@@ -1,8 +1,6 @@
 package com.impraise.suprdemo.scenes.presentation
 
-import com.impraise.common.presentation.ViewModelEntityState
-import com.impraise.supr.domain.DomainResult
-import com.impraise.supr.domain.DomainResultState
+import com.impraise.supr.data.Result
 import com.impraise.supr.presentation.Scene
 import com.impraise.suprdemo.scenes.domain.CreateGameUseCase
 import com.impraise.suprdemo.scenes.domain.model.Game
@@ -16,37 +14,33 @@ class GameScene(val gamePresenter: GamePresenter, private val createGameUseCase:
 
     private var game: Game? = null
 
-    init {
-        useCases.add(createGameUseCase)
-        createGameUseCase.callback = { domainResult ->
-            if (domainResult.state == DomainResultState.Error) {
-                gamePresenter.present(ViewModelEntityState.Error, DomainResult.error(domainResult.error!!, GameState.EMPTY_GAME))
-            } else {
-                domainResult.data?.let {
-                    game = it
-                    gamePresenter.present(ViewModelEntityState.Success, DomainResult.success(it.currentState))
-                }
-            }
-        }
-    }
-
     override fun onInteraction(interaction: GameSceneInteraction) {
         when(interaction) {
-            is GameSceneInteraction.OnLoad -> {
-                gamePresenter.present(ViewModelEntityState.Empty, DomainResult.success(GameState.EMPTY_GAME))
-            }
             is GameSceneInteraction.StartGame -> {
-                gamePresenter.present(ViewModelEntityState.Loading, DomainResult.success(GameState.EMPTY_GAME))
-                createGameUseCase.doYourJob()
+                gamePresenter.loading()
+                createGameUseCase.get(Unit).subscribe({
+
+                    when (it) {
+                        is Result.Success -> {
+                            gamePresenter.present(Result.Success(it.data.currentState))
+                        }
+
+                        is Result.Error -> {
+                            gamePresenter.present(Result.Error(it.error, GameState.EMPTY_GAME))
+                        }
+                    }
+                }, {
+
+                })
             }
             is GameSceneInteraction.Answer -> {
                 game?.answer(Option.Undefined(interaction.option))?.let {
-                    gamePresenter.present(ViewModelEntityState.Success, DomainResult.success(it))
+                    gamePresenter.present(Result.Success(it))
                 }
             }
             is GameSceneInteraction.Continue -> {
                 game?.next()?.let {
-                    gamePresenter.present(ViewModelEntityState.Success, DomainResult.success(it))
+                    gamePresenter.present(Result.Success(it))
                 }
             }
         }

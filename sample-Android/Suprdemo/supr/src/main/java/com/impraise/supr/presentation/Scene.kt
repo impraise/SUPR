@@ -1,22 +1,23 @@
 package com.impraise.supr.presentation
 
 import android.arch.lifecycle.ViewModel
-import com.impraise.supr.domain.DisposableUseCase
+import io.reactivex.disposables.CompositeDisposable
 
 /**
  * Created by guilhermebranco on 3/12/18.
  */
 abstract class Scene<in Interaction>: ViewModel() {
 
-    protected val useCases: MutableList<DisposableUseCase> = mutableListOf()
+    protected val subscriptions = CompositeDisposable()
 
     abstract fun onInteraction(interaction: Interaction)
 
     override fun onCleared() {
-        useCases.forEach {
-            it.dispose()
+        subscriptions.apply {
+            if (isDisposed) return@apply
+            dispose()
+            clear()
         }
-        useCases.clear()
         super.onCleared()
     }
 }

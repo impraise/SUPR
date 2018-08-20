@@ -27,11 +27,11 @@ class GameActivity : AppCompatActivity() {
         scene = ViewModelProviders.of(this, SceneFactory()).get(GameScene::class.java)
         scene.gamePresenter.viewModelStream.observe(this, Observer { viewModelEntity ->
             viewModelEntity?.let {
-                when(it.state) {
+              /*  when(it.state) {
                     ViewModelEntityState.Loading -> loading()
                     ViewModelEntityState.Success -> showGame(it.data)
                     ViewModelEntityState.Empty -> showInitialState()
-                }
+                }*/
             }
         })
         scene.onInteraction(GameSceneInteraction.OnLoad())

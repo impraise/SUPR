@@ -1,10 +1,10 @@
 package com.impraise.suprdemo.scenes.domain
 
-import com.impraise.supr.domain.DomainResultList
+import com.impraise.supr.data.ResultList
 import com.impraise.supr.domain.ReactiveUseCase
 import com.impraise.suprdemo.scenes.data.model.Member
 import com.impraise.suprdemo.scenes.data.MemberRepository
-import io.reactivex.Observable
+import io.reactivex.Flowable
 import io.reactivex.Single
 import java.util.*
 
@@ -13,23 +13,25 @@ import java.util.*
  */
 class MembersPaginatedUseCase(
         private val repository: MemberRepository,
-        private val threshold: Int = 5): ReactiveUseCase<Unit, DomainResultList<List<Member>>> {
+        private val threshold: Int = 5): ReactiveUseCase<Unit, ResultList<List<Member>>> {
 
-    override fun get(param: Unit): Single<DomainResultList<List<Member>>> {
+    override fun get(param: Unit): Single<ResultList<List<Member>>> {
         return repository
                 .all()
-                .flatMap {
-                    val members = it.data?.toMutableList()
-                    Collections.shuffle(members)
-                    Observable.just(members)
-                }
-                .flatMap {
-                    Observable.fromIterable(it)
+                .flatMap { result ->
+                    when (result) {
+                        is ResultList.Success -> {
+                            val members = result.data.toMutableList()
+                            Collections.shuffle(members)
+                            Flowable.fromIterable(members)
+                        }
+                        is ResultList.Error -> Flowable.fromIterable(emptyList())
+                    }
                 }
                 .buffer(threshold)
                 .toList()
                 .map {
-                    DomainResultList.success(it)
+                    ResultList.Success(it)
                 }
     }
 }
