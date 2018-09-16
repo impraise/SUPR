@@ -1,9 +1,9 @@
 package com.impraise.suprdemo.scenes.domain
 
 import com.impraise.supr.data.Result
-import com.impraise.supr.domain.DomainResultState
 import com.impraise.suprdemo.scenes.data.model.Member
 import com.impraise.suprdemo.scenes.domain.model.Option
+import org.junit.Assert
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -18,6 +18,7 @@ class CreateRoundUseCaseTest {
     }
 
     private lateinit var useCase: CreateRoundUseCase
+    private lateinit var helper: RoundCreationHelper
 
     @Before
     fun setup() {
@@ -32,7 +33,7 @@ class CreateRoundUseCaseTest {
 
         testObserver.assertComplete()
         val result = testObserver.values().first()
-        assertTrue(result is Result.Success)
+        assertTrue(result is Result.Error)
     }
 
     @Test
@@ -50,7 +51,41 @@ class CreateRoundUseCaseTest {
         assertEquals(round.data.avatarUrl, correct?.avatarUrl)
     }
 
+    @Test
+    fun shouldChooseCorrectOptionWithAvatar() {
+        helper = object : RoundCreationHelper() {
+            override fun randomIndex(total: Int): Int {
+                return 2
+            }
+        }
+
+        val correct = helper.returnCorrectOptionOrFirstWithAvatar(membersWithOnlyOneAvatar(3), NUMBER_OF_OPTIONS)
+
+        Assert.assertEquals(3, correct)
+    }
+
+    @Test
+    fun shouldKeepFirstOptionWhenItHasAvatar() {
+        helper = object : RoundCreationHelper() {
+            override fun randomIndex(total: Int): Int {
+                return 1
+            }
+        }
+
+        val correct = helper.returnCorrectOptionOrFirstWithAvatar(membersWithOnlyOneAvatar(1), NUMBER_OF_OPTIONS)
+
+        Assert.assertEquals(1, correct)
+    }
+
     private fun members(): List<Member> {
         return (1..10).map { Member(it.toString(), it.toString()) }
     }
+
+    private fun membersWithOnlyOneAvatar(optionWithAvatar: Int): List<Member> {
+        return (0..4).map {
+            if (it == optionWithAvatar) Member(it.toString(), it.toString())
+            else Member(it.toString(), "")
+        }
+    }
 }
+

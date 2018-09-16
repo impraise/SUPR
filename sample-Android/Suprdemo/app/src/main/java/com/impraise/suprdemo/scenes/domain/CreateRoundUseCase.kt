@@ -34,3 +34,18 @@ class CreateRoundUseCase(private val numberOfOptions: Int = 4): ReactiveUseCase<
 fun Random.nextInt(range: IntRange): Int {
     return range.start + nextInt(range.last - range.start)
 }
+
+open class RoundCreationHelper {
+
+    fun returnCorrectOptionOrFirstWithAvatar(members: List<Member>, numberOfOptions: Int): Int {
+        var correct = randomIndex(numberOfOptions)
+        return if (members[correct].avatarUrl.isEmpty()) members.indexOfFirst {
+            it.avatarUrl.isNotEmpty()
+        }
+        else correct
+    }
+
+    open fun randomIndex(total: Int): Int {
+        return Random().nextInt(0..total)
+    }
+}

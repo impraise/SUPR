@@ -3,6 +3,7 @@ package com.impraise.suprdemo.scenes.domain
 import com.impraise.supr.data.Result
 import com.impraise.supr.data.ResultList
 import com.impraise.supr.domain.*
+import com.impraise.suprdemo.scenes.data.model.Member
 import com.impraise.suprdemo.scenes.domain.model.Game
 import com.impraise.suprdemo.scenes.domain.model.Round
 import io.reactivex.Flowable
@@ -16,6 +17,9 @@ class CreateGameUseCase(private val membersPaginatedUseCase: MembersPaginatedUse
 
     override fun get(param: Unit): Single<Result<Game>> {
         return membersPaginatedUseCase.get(Unit)
+                .map {
+                    it.filterGroupsWithoutAvatar()
+                }
                 .toFlowable()
                 .flatMap { result ->
                     when (result) {
@@ -27,20 +31,10 @@ class CreateGameUseCase(private val membersPaginatedUseCase: MembersPaginatedUse
                             Flowable.fromIterable(emptyList())
                         }
                     }
-
                 }
                 .flatMap {
                     createRoundUseCase.get(it).toFlowable()
                 }
-                /*.flatMap {
-                    when (it) {
-                        is ResultList.Success -> {
-                            Flowable.fromIterable(it.data)
-                        }
-                        is ResultList.Error -> Flowable.fromIterable(emptyList())
-                    }
-                }*/
-
                 .map {
                     when (it) {
                         is Result.Success -> {
@@ -55,20 +49,21 @@ class CreateGameUseCase(private val membersPaginatedUseCase: MembersPaginatedUse
                 }
     }
 
-    /*override fun doYourJob() {
-        membersPaginatedUseCase.get(Unit)
-                .toObservable()
-                .flatMap { Observable.fromIterable(it.data) }
-                .flatMap {
-                    createRoundUseCase.get(it).toObservable()
-                }
-                .filter { it.state == DomainResultState.Success && it.data != null}
-                .map { it.data!! }
-                .toList()
-                .subscribe({
-                    complete(DomainResult.success(Game(it)))
-                }, {
-                    complete(DomainResult.error(DomainLayerException(R.string.domain_game_creation_error), null))
-                }).addTo(subscriptions)
-    }*/
+    private fun ResultList<List<Member>>.filterGroupsWithoutAvatar(): ResultList<List<Member>> {
+        return when (this) {
+            is ResultList.Success -> {
+                ResultList.Success(GameCreationHelper().filterGroupsWithoutAvatar(this.data))
+            }
+            is ResultList.Error -> this
+        }
+    }
+}
+
+class GameCreationHelper {
+
+    fun filterGroupsWithoutAvatar(groups: List<List<Member>>): List<List<Member>> {
+        return groups.filter {
+            it.firstOrNull { !it.avatarUrl.isEmpty() } != null
+        }
+    }
 }

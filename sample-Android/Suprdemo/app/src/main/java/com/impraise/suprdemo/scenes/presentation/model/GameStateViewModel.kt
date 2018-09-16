@@ -5,4 +5,11 @@ import com.impraise.suprdemo.scenes.domain.model.Option
 /**
  * Created by guilhermebranco on 3/12/18.
  */
-class GameStateViewModel(val round: String = "", val score: String = "", val options: List<Option> = emptyList(), val gameOver: Boolean = false)
+
+sealed class GameViewModel {
+
+    class GameStateViewModel(val round: String = "", val options: List<Option> = emptyList(), val showContinueButton: Boolean = false) : GameViewModel()
+    class LoadingViewModel() : GameViewModel()
+    class ErrorViewModel(val errorMessage: String = "") : GameViewModel()
+    class GameOverViewModel(val score: String = "0") : GameViewModel()
+}

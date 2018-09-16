@@ -1,9 +1,9 @@
 package com.impraise.suprdemo.scenes.domain
 
-import com.impraise.supr.data.DataResultList
+import com.impraise.supr.data.ResultList
 import com.impraise.suprdemo.scenes.data.model.Member
 import com.impraise.suprdemo.scenes.data.MemberRepository
-import io.reactivex.Observable
+import io.reactivex.Flowable
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -29,19 +29,27 @@ class MembersPaginatedUseCaseTest {
 
     @Test
     fun shouldSplitListOfMembers() {
-        given(repository.all()).willReturn(Observable.just(DataResultList.success(members())))
+        given(repository.all()).willReturn(Flowable.just(ResultList.Success(members())))
 
         val testObserver = useCase.get(Unit).test()
 
         testObserver.assertComplete()
-        val result = testObserver.values().first()
-        assertEquals(3, result.data?.size)
-        assertEquals(5, result.data?.get(0)?.size)
-        assertEquals(5, result.data?.get(1)?.size)
-        assertEquals(2, result.data?.get(2)?.size)
+        val result = testObserver.values().first() as ResultList.Success
+        result.data.numberOfGroupsEqualsTo(3)
+        result.data.numberOfMemberEqualsTo(5, 0)
+        result.data.numberOfMemberEqualsTo(5, 1)
+        result.data.numberOfMemberEqualsTo(2, 2)
     }
 
     private fun members(): List<Member> {
         return (1..12).map { Member(it.toString(), it.toString()) }
+    }
+
+    private fun List<List<Member>>.numberOfGroupsEqualsTo(expected: Int) {
+        assertEquals(expected, this.size)
+    }
+
+    private fun List<List<Member>>.numberOfMemberEqualsTo(expected: Int, groupIndex: Int) {
+        assertEquals(expected, this[groupIndex].size)
     }
 }
