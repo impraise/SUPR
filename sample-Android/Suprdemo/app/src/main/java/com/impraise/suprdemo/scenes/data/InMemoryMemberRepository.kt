@@ -12,7 +12,7 @@ class InMemoryMemberRepository: MemberRepository {
     override fun all(): Flowable<ResultList<Member>> {
         val members = mutableListOf<Member>()
         for (index in 1..40) {
-            members.add(Member(index.toString(), index.toString()))
+            members.add(Member("$index Test teteteteteteteteteteete", index.toString()))
         }
         return Flowable.just(ResultList.Success(members))
     }

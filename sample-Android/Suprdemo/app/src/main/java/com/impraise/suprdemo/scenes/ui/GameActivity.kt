@@ -58,24 +58,24 @@ class GameActivity : AppCompatActivity() {
     private fun loading() {
         loading_screen.visibility = View.VISIBLE
         start_game_screen.visibility = View.GONE
-        game_round.visibility = View.GONE
+        options.visibility = View.GONE
         result_game_screen.visibility = View.GONE
     }
 
     private fun showInitialState() {
         start_game_screen.visibility = View.VISIBLE
         loading_screen.visibility = View.GONE
-        game_round.visibility = View.GONE
+        options.visibility = View.GONE
         result_game_screen.visibility = View.GONE
     }
 
     private fun showGame(viewModel: GameViewModel.GameStateViewModel) {
         start_game_screen.visibility = View.GONE
         loading_screen.visibility = View.GONE
-        game_round.visibility = View.VISIBLE
+        options.visibility = View.VISIBLE
         result_game_screen.visibility = View.GONE
 
-        avatar.text = viewModel.round
+        //avatar.text = viewModel.round
         adapter.setOptions(viewModel.options)
 
         continueButton.visibility = if (viewModel.showContinueButton) View.VISIBLE else View.INVISIBLE
@@ -84,7 +84,7 @@ class GameActivity : AppCompatActivity() {
     private fun showScore(viewModel: GameViewModel) {
         start_game_screen.visibility = View.GONE
         loading_screen.visibility = View.GONE
-        game_round.visibility = View.GONE
+        options.visibility = View.GONE
         result_game_screen.visibility = View.VISIBLE
     }
 }

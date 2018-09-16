@@ -40,33 +40,61 @@
 
     </ProgressBar>
 
+    <ImageView
+        android:id="@+id/avatar"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/no_person"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
-        android:id="@+id/game_round"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:id="@+id/countdownTimerLayout"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:background="@drawable/game_option_bg"
         android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="visible">
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/avatar">
 
         <TextView
-            android:id="@+id/avatar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/fab_margin"
-            tools:text="Avatar" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/options"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/continue_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/continue_text" />
-
+            android:id="@+id/countdownTimer"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="7" />
     </LinearLayout>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/options"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/countdownTimerLayout" />
+
+    <Button
+        android:id="@+id/continue_btn"
+        android:layout_width="0dp"
+        android:layout_height="38dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorPrimary"
+        android:text="@string/continue_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/options" />
 
     <LinearLayout
         android:id="@+id/result_game_screen"
