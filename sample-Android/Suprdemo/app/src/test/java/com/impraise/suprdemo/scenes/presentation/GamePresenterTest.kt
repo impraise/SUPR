@@ -2,11 +2,10 @@ package com.impraise.suprdemo.scenes.presentation
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import com.impraise.supr.data.Result
-import com.impraise.suprdemo.scenes.domain.model.Game
-import com.impraise.suprdemo.scenes.domain.model.Option
-import com.impraise.suprdemo.scenes.domain.model.Round
+import com.impraise.suprdemo.scenes.domain.model.*
 import com.impraise.suprdemo.scenes.presentation.model.GameViewModel
-import junit.framework.Assert
+import junit.framework.Assert.*
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
@@ -20,25 +19,32 @@ class GamePresenterTest {
     @JvmField
     var rule: TestRule = InstantTaskExecutorRule()
 
+    var gamePresenter: GamePresenter = GamePresenter()
+    var result: GameViewModel? = null
+
+    @Before
+    fun setup() {
+        gamePresenter = GamePresenter()
+        gamePresenter.viewModelStream.observeForever {
+            result = it
+        }
+    }
+
     @Test
     fun shouldShowUndefinedOptionWhenNotAnswer() {
         val round = Round("", listOf(Option.Correct("correct"), Option.Wrong("wrong")))
         val game = Game(listOf(round))
         var result: GameViewModel? = null
 
-        val gamePresenter = GamePresenter()
-
         val currentState = game.currentState
-        gamePresenter.viewModelStream.observeForever {
-            result = it
-        }
+
         gamePresenter.present(Result.Success(currentState))
 
-        Assert.assertFalse(currentState.answeredRound)
+        assertFalse(currentState.answeredRound)
         result?.let {
             val gameStateViewModel = it as GameViewModel.GameStateViewModel
             gameStateViewModel.options.forEach {
-                Assert.assertFalse(it is Option.Correct)
+                assertFalse(it is Option.Correct)
             }
         }
     }
@@ -50,20 +56,33 @@ class GamePresenterTest {
         val game = Game(listOf(round))
         var result: GameViewModel? = null
 
-        val gamePresenter = GamePresenter()
         game.answer(option)
 
         val currentState = game.currentState
-        gamePresenter.viewModelStream.observeForever {
-            result = it
-        }
         gamePresenter.present(Result.Success(currentState))
 
-        Assert.assertTrue(currentState.answeredRound)
+        assertTrue(currentState.answeredRound)
         result?.let {
             val gameStateViewModel = it as GameViewModel.GameStateViewModel
-            gameStateViewModel.options[0] is Option.Correct
-            gameStateViewModel.options[1] is Option.Wrong
+            assertTrue(gameStateViewModel.options[0] is Option.Correct)
+            assertTrue(gameStateViewModel.options[1] is Option.Wrong)
+        }
+    }
+
+    @Test
+    fun shouldShowGameNotInitiated() {
+        gamePresenter.present(Result.Success(GameState.EMPTY_GAME))
+        result?.let {
+            assertTrue(it is GameViewModel.GameNotStartedViewModel)
+        }
+    }
+
+    @Test
+    fun shouldShowScoreWhenGameOver() {
+        val gameState = GameState(gameOver = true, score = Score(5))
+        gamePresenter.present(Result.Success(gameState))
+        result?.let {
+            assertTrue(it is GameViewModel.GameOverViewModel)
         }
     }
 }

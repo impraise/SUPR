@@ -26,13 +26,16 @@ class GameActivity : AppCompatActivity() {
         setContentView(R.layout.activity_game)
 
         scene = ViewModelProviders.of(this, SceneFactory()).get(GameScene::class.java)
+
         adapter = RoundOptionsAdapter(scene).also {
             options.adapter = it
             options.layoutManager = LinearLayoutManager(this)
         }
+
         scene.gamePresenter.viewModelStream.observe(this, Observer { viewModelEntity ->
             viewModelEntity?.let { viewModel ->
                 when(viewModel) {
+                    is GameViewModel.GameNotStartedViewModel -> showInitialState()
                     is GameViewModel.LoadingViewModel -> loading()
                     is GameViewModel.GameStateViewModel -> showGame(viewModel)
                     is GameViewModel.GameOverViewModel -> showScore(viewModel)
@@ -51,7 +54,7 @@ class GameActivity : AppCompatActivity() {
         }
 
         newGameButton.setOnClickListener {
-            scene.onInteraction(GameSceneInteraction.StartGame())
+            scene.onInteraction(GameSceneInteraction.OnLoad())
         }
     }
 
@@ -67,6 +70,9 @@ class GameActivity : AppCompatActivity() {
         loading_screen.visibility = View.GONE
         options.visibility = View.GONE
         result_game_screen.visibility = View.GONE
+        countdownTimerLayout.visibility = View.GONE
+        avatar.visibility = View.GONE
+        continueButton.visibility = View.GONE
     }
 
     private fun showGame(viewModel: GameViewModel.GameStateViewModel) {
@@ -74,6 +80,8 @@ class GameActivity : AppCompatActivity() {
         loading_screen.visibility = View.GONE
         options.visibility = View.VISIBLE
         result_game_screen.visibility = View.GONE
+        countdownTimerLayout.visibility = View.VISIBLE
+        avatar.visibility = View.VISIBLE
 
         //avatar.text = viewModel.round
         adapter.setOptions(viewModel.options)
@@ -81,10 +89,14 @@ class GameActivity : AppCompatActivity() {
         continueButton.visibility = if (viewModel.showContinueButton) View.VISIBLE else View.INVISIBLE
     }
 
-    private fun showScore(viewModel: GameViewModel) {
+    private fun showScore(viewModel: GameViewModel.GameOverViewModel) {
+        score.text = viewModel.score
+        continueButton.visibility = View.GONE
         start_game_screen.visibility = View.GONE
         loading_screen.visibility = View.GONE
         options.visibility = View.GONE
         result_game_screen.visibility = View.VISIBLE
+        countdownTimerLayout.visibility = View.GONE
+        avatar.visibility = View.GONE
     }
 }

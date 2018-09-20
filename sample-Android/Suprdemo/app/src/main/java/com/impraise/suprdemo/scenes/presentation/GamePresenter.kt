@@ -30,7 +30,11 @@ class GamePresenter : Presenter<Result<GameState>, GameViewModel> {
     }
 
     private fun GameState.toViewModel(): GameViewModel {
-        return if (!this.answeredRound) {
+        return if (this.gameOver) {
+            GameViewModel.GameOverViewModel(this.score.total.toString())
+        } else if (this == GameState.EMPTY_GAME) {
+            GameViewModel.GameNotStartedViewModel()
+        } else if (!this.answeredRound) {
             GameViewModel.GameStateViewModel("${this.currentRound}/${this.totalRounds}", this.currentOptions.map {
                 Option.Undefined(it.name)
             }, this.answeredRound)
