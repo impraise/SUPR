@@ -5,6 +5,7 @@ import android.arch.lifecycle.MutableLiveData
 import com.impraise.supr.data.Result
 import com.impraise.supr.presentation.Presenter
 import com.impraise.suprdemo.scenes.domain.model.GameState
+import com.impraise.suprdemo.scenes.domain.model.Option
 import com.impraise.suprdemo.scenes.presentation.model.GameViewModel
 
 /**
@@ -29,6 +30,12 @@ class GamePresenter : Presenter<Result<GameState>, GameViewModel> {
     }
 
     private fun GameState.toViewModel(): GameViewModel {
-        return GameViewModel.GameStateViewModel("${this.currentRound}/${this.totalRounds}", this.currentAnswers, this.answeredRound)
+        return if (!this.answeredRound) {
+            GameViewModel.GameStateViewModel("${this.currentRound}/${this.totalRounds}", this.currentOptions.map {
+                Option.Undefined(it.name)
+            }, this.answeredRound)
+        } else {
+            GameViewModel.GameStateViewModel("${this.currentRound}/${this.totalRounds}", this.currentOptions, this.answeredRound)
+        }
     }
 }
