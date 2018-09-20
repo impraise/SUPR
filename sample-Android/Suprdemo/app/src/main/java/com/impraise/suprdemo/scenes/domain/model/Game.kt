@@ -23,7 +23,7 @@ class Game(private val rounds: List<Round>) {
                     gameOver = isGameOver(),
                     answeredRound = roundsAnswered[currentRoundIndex],
                     score = calculateScore(),
-                    currentAnswers = answers[currentRoundIndex])
+                    currentOptions = answers[currentRoundIndex])
         }
 
     fun next(): GameState {
@@ -67,7 +67,7 @@ data class GameState(val currentRound: Int = 0,
                      val gameOver: Boolean = false,
                      val answeredRound: Boolean = false,
                      val score: Score = Score(),
-                     val currentAnswers: List<Option> = emptyList()) {
+                     val currentOptions: List<Option> = emptyList()) {
 
     companion object {
         val EMPTY_GAME = GameState()
