@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.impraise.suprdemo.GameApplication
 import com.impraise.suprdemo.R
 import com.impraise.suprdemo.scenes.domain.model.Option
 import com.impraise.suprdemo.scenes.presentation.GameScene
@@ -40,8 +41,17 @@ class OptionViewHolder(view: View, private val scene: GameScene) : RecyclerView.
 
     fun bind(option: Option) {
         optionDescription.text = option.name
+        optionDescription.setBackgroundColor(GameApplication.instance .getColor(option.backgroundColor()))
         view.setOnClickListener {
             scene.onInteraction(GameSceneInteraction.Answer(option.name))
         }
+    }
+}
+
+private fun Option.backgroundColor(): Int {
+    return when (this) {
+        is Option.Correct -> R.color.colorCorrectAnswer
+        is Option.Undefined -> android.R.color.white
+        is Option.Wrong -> R.color.colorWrongAnswer
     }
 }

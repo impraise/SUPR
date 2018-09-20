@@ -53,7 +53,7 @@ class GameTest {
         val currentState = game.answer(options[correctIndex])
 
         assertTrue(currentState.answeredRound)
-        currentState.currentAnswers.assertNoWrongAnswers()
+        currentState.currentOptions.assertNoWrongAnswers()
     }
 
     @Test
@@ -70,7 +70,7 @@ class GameTest {
         val currentState = game.answer(options[wrong])
 
         assertTrue(currentState.answeredRound)
-        currentState.currentAnswers.assertWrongAnswerAt(wrong)
+        currentState.currentOptions.assertWrongAnswerAt(wrong)
     }
 
     @Test

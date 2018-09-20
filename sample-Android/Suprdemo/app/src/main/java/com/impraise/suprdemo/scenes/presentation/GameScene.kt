@@ -6,8 +6,6 @@ import com.impraise.suprdemo.scenes.domain.CreateGameUseCase
 import com.impraise.suprdemo.scenes.domain.model.Game
 import com.impraise.suprdemo.scenes.domain.model.GameState
 import com.impraise.suprdemo.scenes.domain.model.Option
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 /**
  * Created by guilhermebranco on 3/12/18.
@@ -47,8 +45,6 @@ class GameScene(val gamePresenter: GamePresenter,
     private fun createGame() {
         createGameUseCase
                 .get(Unit)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe {
                     gamePresenter.loading()
                 }
