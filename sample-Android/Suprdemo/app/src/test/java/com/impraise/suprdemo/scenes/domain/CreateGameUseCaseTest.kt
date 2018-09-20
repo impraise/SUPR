@@ -37,7 +37,7 @@ class CreateGameUseCaseTest {
         testObserver.assertComplete()
         testObserver.assertValue {
             val success = it as Result.Success
-            success.data.currentState.currentRound == 1
+            success.data.currentState.currentRound == 0
         }
 
         testObserver.assertValue {

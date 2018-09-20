@@ -1,6 +1,7 @@
 package com.impraise.suprdemo.scenes.presentation
 
 import com.impraise.supr.data.Result
+import com.impraise.supr.domain.DomainLayerException
 import com.impraise.supr.presentation.Scene
 import com.impraise.suprdemo.scenes.domain.CreateGameUseCase
 import com.impraise.suprdemo.scenes.domain.model.Game
@@ -52,7 +53,7 @@ class GameScene(val gamePresenter: GamePresenter,
                     when (result) {
                         is Result.Success -> {
                             game = result.data
-                            gamePresenter.present(Result.Success(result.data.currentState))
+                            gamePresenter.present(Result.Success(GameState.EMPTY_GAME))
                         }
 
                         is Result.Error -> {
@@ -60,7 +61,7 @@ class GameScene(val gamePresenter: GamePresenter,
                         }
                     }
                 }, {
-
+                    gamePresenter.present(Result.Error(DomainLayerException(), GameState.EMPTY_GAME))
                 })
     }
 }

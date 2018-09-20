@@ -10,7 +10,7 @@ class Game(private val rounds: List<Round>) {
     private val roundsAnswered = mutableListOf<Boolean>()
 
     init {
-        rounds.forEachIndexed{ index, round ->
+        rounds.forEachIndexed { index, round ->
             answers.add(index, round.options)
             roundsAnswered.add(false)
         }
@@ -18,7 +18,7 @@ class Game(private val rounds: List<Round>) {
 
     val currentState: GameState
         get() {
-            return GameState(currentRound = currentRoundIndex + 1,
+            return GameState(currentRound = currentRoundIndex,
                     totalRounds = rounds.size,
                     gameOver = isGameOver(),
                     answeredRound = roundsAnswered[currentRoundIndex],
@@ -31,25 +31,28 @@ class Game(private val rounds: List<Round>) {
             return currentState
         }
 
-        currentRoundIndex++
+        currentRoundIndex = if (currentRoundIndex == (rounds.size - 1)) currentRoundIndex else currentRoundIndex + 1
 
         return currentState
     }
 
     fun answer(option: Option): GameState {
-        val round = rounds[currentRoundIndex]
-        val list = round.options.map {
-            if (it.name == option.name) {
-                (it as? Option.Undefined)?.asWrong() ?: it
-            } else it
+        return if (isGameOver()) currentState
+        else {
+            val round = rounds[currentRoundIndex]
+            val list = round.options.map {
+                if (it.name == option.name) {
+                    (it as? Option.Undefined)?.asWrong() ?: it
+                } else it
+            }
+            answers[currentRoundIndex] = list
+            roundsAnswered[currentRoundIndex] = true
+            currentState
         }
-        answers[currentRoundIndex] = list
-        roundsAnswered[currentRoundIndex] = true
-        return currentState
     }
 
     private fun isGameOver(): Boolean {
-        return currentRoundIndex == rounds.size - 1
+        return currentRoundIndex == rounds.size - 1 && roundsAnswered[currentRoundIndex]
     }
 
     private fun calculateScore(): Score {

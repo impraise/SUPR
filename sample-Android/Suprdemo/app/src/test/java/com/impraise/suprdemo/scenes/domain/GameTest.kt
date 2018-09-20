@@ -3,6 +3,7 @@ package com.impraise.suprdemo.scenes.domain
 import com.impraise.suprdemo.scenes.domain.model.Game
 import com.impraise.suprdemo.scenes.domain.model.Option
 import com.impraise.suprdemo.scenes.domain.model.Round
+import org.junit.Assert
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -21,25 +22,25 @@ class GameTest {
 
     @Test
     fun shouldCreateGameWithCurrentState() {
-        assertEquals(1, game.currentState.currentRound)
+        assertEquals(0, game.currentState.currentRound)
         assertEquals(5, game.currentState.totalRounds)
     }
 
     @Test
     fun shouldMoveToNextRound() {
         val next = game.next()
-        assertEquals(2, next.currentRound)
+        assertEquals(1, next.currentRound)
         assertEquals(5, next.totalRounds)
     }
 
     @Test
     fun shouldFinishGameAfterLastRound() {
-        game.next()
-        game.next()
-        game.next()
+        (1..5).forEach {
+            game.answer(Option.Wrong(""))
+            game.next()
+        }
         val finalState = game.next()
         assertEquals(true, finalState.gameOver)
-
     }
 
     @Test
@@ -74,14 +75,14 @@ class GameTest {
     }
 
     @Test
-    fun shouldFinishGameAfterAllRounds() {
+    fun shouldNotFinishIfThereIsAnyRoundWithoutAnswers() {
         game.next()
         game.next()
         game.next()
         game.next()
 
         val currentState = game.currentState
-        assertEquals(true, currentState.gameOver)
+        assertFalse(currentState.gameOver)
     }
 
     @Test
