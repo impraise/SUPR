@@ -3,7 +3,6 @@ package com.impraise.suprdemo.scenes.domain
 import com.impraise.suprdemo.scenes.domain.model.Game
 import com.impraise.suprdemo.scenes.domain.model.Option
 import com.impraise.suprdemo.scenes.domain.model.Round
-import org.junit.Assert
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -14,22 +13,24 @@ import org.junit.Test
 class GameTest {
 
     private lateinit var game: Game
+    private var rounds: List<Round> = emptyList()
 
     @Before
     fun setup() {
-        game = Game(fiveRounds())
+        rounds = fiveRounds()
+        game = Game(rounds)
     }
 
     @Test
     fun shouldCreateGameWithCurrentState() {
-        assertEquals(0, game.currentState.currentRound)
+        assertEquals(rounds[0], game.currentState.currentRound)
         assertEquals(5, game.currentState.totalRounds)
     }
 
     @Test
     fun shouldMoveToNextRound() {
         val next = game.next()
-        assertEquals(1, next.currentRound)
+        assertEquals(rounds[1], next.currentRound)
         assertEquals(5, next.totalRounds)
     }
 

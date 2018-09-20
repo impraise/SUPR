@@ -3,6 +3,7 @@ package com.impraise.suprdemo.scenes.domain
 import com.impraise.supr.data.Result
 import com.impraise.supr.data.ResultList
 import com.impraise.suprdemo.scenes.data.model.Member
+import com.impraise.suprdemo.scenes.domain.model.Round
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import io.reactivex.Single
@@ -37,7 +38,7 @@ class CreateGameUseCaseTest {
         testObserver.assertComplete()
         testObserver.assertValue {
             val success = it as Result.Success
-            success.data.currentState.currentRound == 0
+            success.data.currentState.currentRound != Round.INVALID_ROUND
         }
 
         testObserver.assertValue {

@@ -35,11 +35,11 @@ class GamePresenter : Presenter<Result<GameState>, GameViewModel> {
         } else if (this == GameState.EMPTY_GAME) {
             GameViewModel.GameNotStartedViewModel()
         } else if (!this.answeredRound) {
-            GameViewModel.GameStateViewModel("${this.currentRound}/${this.totalRounds}", this.currentOptions.map {
+            GameViewModel.GameStateViewModel(this.currentRound.avatarUrl, this.currentOptions.map {
                 Option.Undefined(it.name)
             }, this.answeredRound)
         } else {
-            GameViewModel.GameStateViewModel("${this.currentRound}/${this.totalRounds}", this.currentOptions, this.answeredRound)
+            GameViewModel.GameStateViewModel(this.currentRound.avatarUrl, this.currentOptions, this.answeredRound)
         }
     }
 }

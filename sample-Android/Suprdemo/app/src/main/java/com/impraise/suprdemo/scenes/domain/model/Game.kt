@@ -18,7 +18,7 @@ class Game(private val rounds: List<Round>) {
 
     val currentState: GameState
         get() {
-            return GameState(currentRound = currentRoundIndex,
+            return GameState(currentRound = rounds[currentRoundIndex],
                     totalRounds = rounds.size,
                     gameOver = isGameOver(),
                     answeredRound = roundsAnswered[currentRoundIndex],
@@ -65,7 +65,7 @@ class Game(private val rounds: List<Round>) {
     }
 }
 
-data class GameState(val currentRound: Int = 0,
+data class GameState(val currentRound: Round = Round.INVALID_ROUND,
                      val totalRounds: Int = 0,
                      val gameOver: Boolean = false,
                      val answeredRound: Boolean = false,
