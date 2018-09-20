@@ -7,16 +7,23 @@ import com.impraise.suprdemo.scenes.data.model.Member
 import com.impraise.suprdemo.scenes.domain.model.Game
 import com.impraise.suprdemo.scenes.domain.model.Round
 import io.reactivex.Flowable
+import io.reactivex.Scheduler
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 /**
  * Created by guilhermebranco on 3/11/18.
  */
 class CreateGameUseCase(private val membersPaginatedUseCase: MembersPaginatedUseCase,
-                        private val createRoundUseCase: CreateRoundUseCase): ReactiveUseCase<Unit, Result<Game>> {
+                        private val createRoundUseCase: CreateRoundUseCase,
+                        private val subscribeOn: Scheduler = Schedulers.io(),
+                        private val observerOn: Scheduler = AndroidSchedulers.mainThread()): ReactiveUseCase<Unit, Result<Game>> {
 
     override fun get(param: Unit): Single<Result<Game>> {
         return membersPaginatedUseCase.get(Unit)
+                .subscribeOn(subscribeOn)
+                .observeOn(observerOn)
                 .map {
                     it.filterGroupsWithoutAvatar()
                 }

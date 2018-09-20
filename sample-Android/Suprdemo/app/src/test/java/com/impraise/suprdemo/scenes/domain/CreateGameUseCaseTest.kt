@@ -6,6 +6,7 @@ import com.impraise.suprdemo.scenes.data.model.Member
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 import junit.framework.Assert
 import org.junit.Before
 import org.junit.Test
@@ -78,6 +79,6 @@ class CreateGameUseCaseTest {
 
     private fun createGame(members: List<List<Member>>) {
         given(membersPaginatedUseCase.get(any())).willReturn(Single.just(ResultList.Success(members)))
-        useCase = CreateGameUseCase(membersPaginatedUseCase, CreateRoundUseCase())
+        useCase = CreateGameUseCase(membersPaginatedUseCase, CreateRoundUseCase(), Schedulers.trampoline(), Schedulers.trampoline())
     }
 }
