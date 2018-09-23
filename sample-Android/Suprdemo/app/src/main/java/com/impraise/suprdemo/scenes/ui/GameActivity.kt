@@ -2,7 +2,11 @@ package com.impraise.suprdemo.scenes.ui
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
@@ -89,14 +93,14 @@ class GameActivity : AppCompatActivity() {
 
         Picasso.get()
                 .load(viewModel.round)
-                .fetch(object : Callback {
+                .into(avatar, object : Callback {
 
                     override fun onSuccess() {
-                        Picasso.get()
-                                .load(viewModel.round)
-                                .placeholder(R.drawable.no_person)
-                                .error(R.drawable.no_person)
-                                .into(avatar)
+                        val imageBitmap = ((avatar.drawable) as BitmapDrawable).bitmap
+                        val imageDrawable = RoundedBitmapDrawableFactory.create(resources, imageBitmap)
+                        imageDrawable.isCircular = true
+                        imageDrawable.cornerRadius = Math.max(imageBitmap.width, imageBitmap.height) / 2.0f
+                        avatar.setImageDrawable(imageDrawable)
                     }
 
                     override fun onError(e: Exception?) {
