@@ -78,7 +78,6 @@ class GameActivity : AppCompatActivity() {
         loading_screen.visibility = View.GONE
         options.visibility = View.GONE
         result_game_screen.visibility = View.GONE
-        countdownTimerLayout.visibility = View.GONE
         avatar.visibility = View.GONE
         continueButton.visibility = View.GONE
     }
@@ -88,7 +87,6 @@ class GameActivity : AppCompatActivity() {
         loading_screen.visibility = View.GONE
         options.visibility = View.VISIBLE
         result_game_screen.visibility = View.GONE
-        countdownTimerLayout.visibility = View.VISIBLE
         avatar.visibility = View.VISIBLE
 
         Picasso.get()
@@ -120,7 +118,6 @@ class GameActivity : AppCompatActivity() {
         loading_screen.visibility = View.GONE
         options.visibility = View.GONE
         result_game_screen.visibility = View.VISIBLE
-        countdownTimerLayout.visibility = View.GONE
         avatar.visibility = View.GONE
     }
 }

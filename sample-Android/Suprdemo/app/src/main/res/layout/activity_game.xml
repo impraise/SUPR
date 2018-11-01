@@ -42,36 +42,13 @@
 
     <ImageView
         android:id="@+id/avatar"
-        android:layout_width="86dp"
-        android:layout_height="86dp"
+        android:layout_width="@dimen/avatar_size"
+        android:layout_height="@dimen/avatar_size"
         android:layout_marginTop="24dp"
         android:src="@drawable/no_person"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <LinearLayout
-        android:id="@+id/countdownTimerLayout"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:background="@drawable/game_option_bg"
-        android:gravity="center"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/avatar">
-
-        <TextView
-            android:id="@+id/countdownTimer"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="7" />
-    </LinearLayout>
-
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/options"
@@ -80,7 +57,7 @@
         android:layout_marginTop="12dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/countdownTimerLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/avatar" />
 
     <Button
         android:id="@+id/continue_btn"
