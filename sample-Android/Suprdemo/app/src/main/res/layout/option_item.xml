@@ -11,7 +11,7 @@
         android:id="@+id/optionDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/game_option_bg"
+        android:background="@drawable/game_option_normal_bg"
         android:gravity="center"
         android:paddingBottom="8dp"
         android:paddingTop="8dp"
