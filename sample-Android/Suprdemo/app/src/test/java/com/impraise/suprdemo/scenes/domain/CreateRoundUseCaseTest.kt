@@ -3,10 +3,12 @@ package com.impraise.suprdemo.scenes.domain
 import com.impraise.supr.data.Result
 import com.impraise.suprdemo.scenes.data.model.Member
 import com.impraise.suprdemo.scenes.domain.model.Option
-import org.junit.Assert
+import com.impraise.suprdemo.scenes.helper.GameTestHelper
+import com.nhaarman.mockito_kotlin.mock
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
+import org.mockito.BDDMockito.*
 
 /**
  * Created by guilhermebranco on 3/11/18.
@@ -22,12 +24,13 @@ class CreateRoundUseCaseTest {
 
     @Before
     fun setup() {
-        useCase = CreateRoundUseCase(NUMBER_OF_OPTIONS)
+        helper = RoundCreationHelper(GameTestHelper.alwaysTrueCondition())
+        useCase = CreateRoundUseCase(NUMBER_OF_OPTIONS, helper)
     }
 
     @Test
-    fun shouldReturnDomainResultErrorListSizeNotSatisfied() {
-        useCase = CreateRoundUseCase(1)
+    fun `should return error`() {
+        useCase = CreateRoundUseCase(1, helper)
 
         val testObserver = useCase.get(emptyList()).test()
 
@@ -37,7 +40,7 @@ class CreateRoundUseCaseTest {
     }
 
     @Test
-    fun shouldCreateRound() {
+    fun `should create round`() {
         val members = members()
         val testObserver = useCase.get(members).test()
 
@@ -52,21 +55,27 @@ class CreateRoundUseCaseTest {
     }
 
     @Test
-    fun shouldChooseCorrectOptionWithAvatar() {
-        helper = object : RoundCreationHelper() {
+    fun `should choose correct option with avatar`() {
+        val members = members().take(4)
+        val selectedMember = members[2]
+        val condition = mock<RoundCreationHelper.Condition<Member>>().apply {
+            given(this.satisfied(selectedMember)).willReturn(true)
+        }
+
+        helper = object : RoundCreationHelper(condition) {
             override fun randomIndex(total: Int): Int {
-                return 2
+                return 3
             }
         }
 
-        val correct = helper.returnCorrectOptionOrFirstWithAvatar(membersWithOnlyOneAvatar(3), NUMBER_OF_OPTIONS)
+        val correct = helper.returnCorrectOptionOrFirstWithAvatar(members, NUMBER_OF_OPTIONS)
 
-        Assert.assertEquals(3, correct)
+        assertEquals(2, correct)
     }
 
     @Test
-    fun shouldKeepFirstOptionWhenItHasAvatar() {
-        helper = object : RoundCreationHelper() {
+    fun `should keep first option when it has avatar`() {
+        helper = object : RoundCreationHelper(satisfied) {
             override fun randomIndex(total: Int): Int {
                 return 1
             }
@@ -74,7 +83,7 @@ class CreateRoundUseCaseTest {
 
         val correct = helper.returnCorrectOptionOrFirstWithAvatar(membersWithOnlyOneAvatar(1), NUMBER_OF_OPTIONS)
 
-        Assert.assertEquals(1, correct)
+        assertEquals(1, correct)
     }
 
     private fun members(): List<Member> {
@@ -85,6 +94,13 @@ class CreateRoundUseCaseTest {
         return (0..4).map {
             if (it == optionWithAvatar) Member(it.toString(), it.toString())
             else Member(it.toString(), "")
+        }
+    }
+
+    val satisfied = object : RoundCreationHelper.Condition<Member> {
+
+        override fun satisfied(param: Member): Boolean {
+            return true
         }
     }
 }

@@ -15,8 +15,9 @@ import io.reactivex.schedulers.Schedulers
 /**
  * Created by guilhermebranco on 3/11/18.
  */
-class CreateGameUseCase(private val membersPaginatedUseCase: MembersPaginatedUseCase,
+class CreateGameUseCase(private val membersPaginatedUseCase: ReactiveUseCase<Unit, ResultList<List<Member>>>,
                         private val createRoundUseCase: CreateRoundUseCase,
+                        private val gameCreationHelper: GameCreationHelper,
                         private val subscribeOn: Scheduler = Schedulers.io(),
                         private val observerOn: Scheduler = AndroidSchedulers.mainThread()): ReactiveUseCase<Unit, Result<Game>> {
 
@@ -59,18 +60,18 @@ class CreateGameUseCase(private val membersPaginatedUseCase: MembersPaginatedUse
     private fun ResultList<List<Member>>.filterGroupsWithoutAvatar(): ResultList<List<Member>> {
         return when (this) {
             is ResultList.Success -> {
-                ResultList.Success(GameCreationHelper().filterGroupsWithoutAvatar(this.data))
+                ResultList.Success(gameCreationHelper.filterGroupsWithoutAvatar(this.data))
             }
             is ResultList.Error -> this
         }
     }
 }
 
-class GameCreationHelper {
+class GameCreationHelper(private val condition: RoundCreationHelper.Condition<Member>) {
 
     fun filterGroupsWithoutAvatar(groups: List<List<Member>>): List<List<Member>> {
         return groups.filter {
-            it.firstOrNull { !it.avatarUrl.isEmpty() } != null
+            it.firstOrNull { member ->  condition.satisfied(member) } != null
         }
     }
 }

@@ -4,6 +4,7 @@ import com.impraise.supr.data.Result
 import com.impraise.supr.data.ResultList
 import com.impraise.suprdemo.scenes.data.model.Member
 import com.impraise.suprdemo.scenes.domain.model.Round
+import com.impraise.suprdemo.scenes.helper.GameTestHelper
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import io.reactivex.Single
@@ -20,7 +21,7 @@ import org.mockito.Mock
 class CreateGameUseCaseTest {
 
     @Mock
-    private lateinit var membersPaginatedUseCase: MembersPaginatedUseCase
+    private lateinit var membersPaginatedUseCase: LoadRandomPageOfMembersUseCase
 
     private lateinit var useCase: CreateGameUseCase
 
@@ -32,7 +33,7 @@ class CreateGameUseCaseTest {
     }
 
     @Test
-    fun shouldCreateGameWithFiveRounds() {
+    fun `should create game with five rounds`() {
         val testObserver = useCase.get(Unit).test()
 
         testObserver.assertComplete()
@@ -48,38 +49,43 @@ class CreateGameUseCaseTest {
     }
 
     @Test
-    fun shouldFilterGroupsWithNoAvatar() {
+    fun `should filter groups without at least one avatar`() {
+        val noAvatar = Member("NO_AVATAR", "NO_AVATAR")
         val list = members().toMutableList()
         val expectedSize = list.size
         val listWithAtLeastOneAvatar = (1..4).map {
             if (it == 1) Member(it.toString(), it.toString())
-            else Member(it.toString(), "")
+            else noAvatar
         }
 
         val listWithoutAvatar = (1..4).map {
-            Member(it.toString(), "")
+            noAvatar
         }
 
         list += listWithoutAvatar
         list += listWithAtLeastOneAvatar
 
-        val result = GameCreationHelper().filterGroupsWithoutAvatar(list)
+        val condition = mock<RoundCreationHelper.Condition<Member>>().apply {
+            given(this.satisfied(com.nhaarman.mockito_kotlin.argWhere {
+                it != noAvatar
+            })).willReturn(true)
+        }
+
+        val result = GameCreationHelper(condition).filterGroupsWithoutAvatar(list)
 
         Assert.assertEquals(expectedSize + 1, result.size)
     }
 
     private fun members(): List<List<Member>> {
-        val members = mutableListOf<List<Member>>()
-
-        (1..5).forEach {
-            val current = (1..4).map { Member(it.toString(), it.toString()) }
-            members.add(current)
-        }
-        return members
+        return GameTestHelper.members()
     }
 
     private fun createGame(members: List<List<Member>>) {
         given(membersPaginatedUseCase.get(any())).willReturn(Single.just(ResultList.Success(members)))
-        useCase = CreateGameUseCase(membersPaginatedUseCase, CreateRoundUseCase(), Schedulers.trampoline(), Schedulers.trampoline())
+        useCase = CreateGameUseCase(membersPaginatedUseCase,
+                CreateRoundUseCase(roundCreationHelper = RoundCreationHelper(GameTestHelper.alwaysTrueCondition())),
+                GameCreationHelper(GameTestHelper.alwaysTrueCondition()),
+                Schedulers.trampoline(),
+                Schedulers.trampoline())
     }
 }
