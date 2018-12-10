@@ -1,9 +1,11 @@
 package com.impraise.suprdemo.scenes.domain
 
+import com.impraise.supr.common.Pagination
+import com.impraise.supr.data.PaginatedRepository
+import com.impraise.supr.data.PaginatedResult
 import com.impraise.supr.data.ResultList
 import com.impraise.supr.domain.ReactiveUseCase
 import com.impraise.suprdemo.scenes.data.model.Member
-import com.impraise.suprdemo.scenes.data.MemberRepository
 import io.reactivex.Flowable
 import io.reactivex.Single
 import java.util.*
@@ -11,21 +13,21 @@ import java.util.*
 /**
  * Created by guilhermebranco on 3/10/18.
  */
-class MembersPaginatedUseCase(
-        private val repository: MemberRepository,
+class LoadRandomPageOfMembersUseCase(
+        private val repository: PaginatedRepository<Member>,
         private val threshold: Int = 5): ReactiveUseCase<Unit, ResultList<List<Member>>> {
 
     override fun get(param: Unit): Single<ResultList<List<Member>>> {
         return repository
-                .all()
+                .fetch(Pagination(50, (0..1000).random().toString()))
                 .flatMap { result ->
                     when (result) {
-                        is ResultList.Success -> {
+                        is PaginatedResult.Success -> {
                             val members = result.data.toMutableList()
-                            Collections.shuffle(members)
+                            members.shuffle()
                             Flowable.fromIterable(members)
                         }
-                        is ResultList.Error -> Flowable.fromIterable(emptyList())
+                        is PaginatedResult.Error -> Flowable.fromIterable(emptyList())
                     }
                 }
                 .buffer(threshold)
@@ -35,3 +37,6 @@ class MembersPaginatedUseCase(
                 }
     }
 }
+
+fun IntRange.random() =
+        Random().nextInt((endInclusive + 1) - start) +  start
