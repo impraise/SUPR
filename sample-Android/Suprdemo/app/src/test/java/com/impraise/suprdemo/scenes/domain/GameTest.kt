@@ -22,21 +22,21 @@ class GameTest {
     }
 
     @Test
-    fun shouldCreateGameWithCurrentState() {
+    fun `should create game with current state`() {
         assertEquals(rounds[0], game.currentState.currentRound)
         assertEquals(5, game.currentState.totalRounds)
     }
 
     @Test
-    fun shouldMoveToNextRound() {
+    fun `should move to next round`() {
         val next = game.next()
         assertEquals(rounds[1], next.currentRound)
         assertEquals(5, next.totalRounds)
     }
 
     @Test
-    fun shouldFinishGameAfterLastRound() {
-        (1..5).forEach {
+    fun `should finish game after last round`() {
+        (1..5).forEach { _ ->
             game.answer(Option.Wrong(""))
             game.next()
         }
@@ -45,7 +45,7 @@ class GameTest {
     }
 
     @Test
-    fun shouldAnswerCorrectOption() {
+    fun `should answer correct option`() {
         val correctIndex = 2
         val options = options(correctIndex)
         val round = Round("", options)
@@ -59,7 +59,7 @@ class GameTest {
     }
 
     @Test
-    fun shouldAnswerWrongOption() {
+    fun `should answer wrong option`() {
         val correctIndex = 2
         val options = options(correctIndex)
         val round = Round("", options)
@@ -76,7 +76,7 @@ class GameTest {
     }
 
     @Test
-    fun shouldNotFinishIfThereIsAnyRoundWithoutAnswers() {
+    fun `should not finish if there is any round without answers`() {
         game.next()
         game.next()
         game.next()
@@ -87,7 +87,7 @@ class GameTest {
     }
 
     @Test
-    fun shouldCalculateScore() {
+    fun `should calculate score`() {
         val correctIndex = 2
         val wrongIndex = 1
         val options = options(correctIndex)
