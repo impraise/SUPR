@@ -13,6 +13,13 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        file("./custom_api.properties").withReader {
+            Properties props = new Properties()
+            props.load(it)
+            buildConfigField "String", "PRIVATE_API_KEY", "\"${props.getProperty("marvelPrivate")}\""
+            buildConfigField "String", "PUBLIC_API_KEY", "\"${props.getProperty("marvelPublic")}\""
+        }
     }
     buildTypes {
         release {
