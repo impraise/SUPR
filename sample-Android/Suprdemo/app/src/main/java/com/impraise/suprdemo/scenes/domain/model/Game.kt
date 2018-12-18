@@ -37,7 +37,7 @@ class Game(private val rounds: List<Round>) {
     }
 
     fun answer(option: Option): GameState {
-        return if (isGameOver()) currentState
+        return if (isGameOver() || roundsAnswered[currentRoundIndex]) currentState
         else {
             val round = rounds[currentRoundIndex]
             val list = round.options.map {
@@ -58,7 +58,7 @@ class Game(private val rounds: List<Round>) {
     private fun calculateScore(): Score {
         var total = rounds.size
         answers.forEach {
-            val wrong = it.filter { it is Option.Wrong }.count()
+            val wrong = it.asSequence().filter { it is Option.Wrong }.count()
             total = if (wrong > 0) total - 1 else total
         }
         return Score(total = total)
@@ -77,4 +77,4 @@ data class GameState(val currentRound: Round = Round.INVALID_ROUND,
     }
 }
 
-class Score(val total: Int = 0)
+data class Score(val total: Int = 0)

@@ -76,7 +76,7 @@ class GameTest {
     }
 
     @Test
-    fun `should not finish if there is any round without answers`() {
+    fun `should not finish if there is a round without answers`() {
         game.next()
         game.next()
         game.next()
@@ -106,11 +106,22 @@ class GameTest {
         assertEquals(2, currentState.score.total)
     }
 
+    @Test
+    fun `should not accept more than one answer for the same round`() {
+        val options = options()
+        val round = Round("", options)
+        val game = Game(listOf(round, round))
+        val firstAnswer = game.answer(options[0])
+        val secondAnswer = game.answer(options[0])
+
+        assertEquals(firstAnswer, secondAnswer)
+    }
+
     private fun fiveRounds(): List<Round> {
         return (1..5).map { Round(it.toString(), emptyList()) }
     }
 
-    private fun options(correctIndex: Int): List<Option> {
+    private fun options(correctIndex: Int = 0): List<Option> {
         val options = mutableListOf<Option>()
         for (index in 0..3) {
             if (index == correctIndex) {
