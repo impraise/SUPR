@@ -1,7 +1,7 @@
 package com.impraise.suprdemo.scenes.presentation
 
-import com.impraise.common.presentation.Interaction
-import com.impraise.common.presentation.InteractionType
+import com.impraise.supr.presentation.Interaction
+import com.impraise.supr.presentation.InteractionType
 
 /**
  * Created by guilhermebranco on 3/12/18.

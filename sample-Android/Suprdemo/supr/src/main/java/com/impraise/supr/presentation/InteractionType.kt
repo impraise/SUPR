@@ -1,4 +1,4 @@
-package com.impraise.common.presentation
+package com.impraise.supr.presentation
 
 /**
  * Created by guilhermebranco on 1/17/18.
