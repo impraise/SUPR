@@ -1,4 +1,4 @@
-package com.impraise.suprdemo.scenes.presentation
+package com.impraise.supr.game.presentation
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import com.impraise.supr.data.Result

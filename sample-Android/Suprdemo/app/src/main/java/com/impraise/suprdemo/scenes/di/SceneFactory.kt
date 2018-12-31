@@ -3,11 +3,11 @@ package com.impraise.suprdemo.scenes.di
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.impraise.supr.data.PaginatedRepository
+import com.impraise.supr.game.scenes.data.model.Member
+import com.impraise.supr.game.scenes.domain.*
+import com.impraise.supr.game.scenes.presentation.GamePresenter
+import com.impraise.supr.game.scenes.presentation.GameScene
 import com.impraise.suprdemo.scenes.data.*
-import com.impraise.suprdemo.scenes.data.model.Member
-import com.impraise.suprdemo.scenes.domain.*
-import com.impraise.suprdemo.scenes.presentation.GamePresenter
-import com.impraise.suprdemo.scenes.presentation.GameScene
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 

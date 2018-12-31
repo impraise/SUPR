@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.impraise.supr.game.scenes.presentation.GameScene
+import com.impraise.supr.game.scenes.presentation.GameSceneInteraction
 import com.impraise.suprdemo.R
 import com.impraise.suprdemo.scenes.domain.model.Option
-import com.impraise.suprdemo.scenes.presentation.GameScene
-import com.impraise.suprdemo.scenes.presentation.GameSceneInteraction
 import kotlinx.android.synthetic.main.option_item.view.*
 
 class RoundOptionsAdapter(private val gameScene: GameScene) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -33,10 +33,9 @@ class RoundOptionsAdapter(private val gameScene: GameScene) : RecyclerView.Adapt
     }
 }
 
-class OptionViewHolder(view: View, private val scene: GameScene) : RecyclerView.ViewHolder(view) {
+class OptionViewHolder(private val view: View, private val scene: GameScene) : RecyclerView.ViewHolder(view) {
 
     private val optionDescription: TextView = view.optionDescription
-    private val view: View = view
 
     fun bind(option: Option) {
         optionDescription.text = option.name

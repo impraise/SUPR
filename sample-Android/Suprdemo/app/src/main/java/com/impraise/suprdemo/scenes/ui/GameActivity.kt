@@ -2,20 +2,18 @@ package com.impraise.suprdemo.scenes.ui
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.View
+import com.impraise.supr.game.scenes.presentation.GameScene
+import com.impraise.supr.game.scenes.presentation.GameSceneInteraction
+import com.impraise.supr.game.scenes.presentation.model.GameViewModel
 import com.impraise.suprdemo.R
 import com.impraise.suprdemo.scenes.di.SceneFactory
-import com.impraise.suprdemo.scenes.presentation.GameScene
-import com.impraise.suprdemo.scenes.presentation.GameSceneInteraction
-import com.impraise.suprdemo.scenes.presentation.model.GameViewModel
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_game.start_game_btn as startGameButton

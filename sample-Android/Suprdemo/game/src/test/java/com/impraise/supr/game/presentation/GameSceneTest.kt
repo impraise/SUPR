@@ -1,4 +1,4 @@
-package com.impraise.suprdemo.scenes.presentation
+package com.impraise.supr.game.presentation
 
 import com.impraise.supr.data.Result
 import com.impraise.supr.game.scenes.domain.CreateGameUseCase
