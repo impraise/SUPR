@@ -1,4 +1,4 @@
-package com.impraise.suprdemo.scenes.presentation.model
+package com.impraise.supr.game.scenes.presentation.model
 
 import com.impraise.suprdemo.scenes.domain.model.Option
 
@@ -9,8 +9,8 @@ import com.impraise.suprdemo.scenes.domain.model.Option
 sealed class GameViewModel {
 
     class GameStateViewModel(val round: String = "", val options: List<Option> = emptyList(), val showContinueButton: Boolean = false) : GameViewModel()
-    class LoadingViewModel : GameViewModel()
-    class GameNotStartedViewModel : GameViewModel()
+    object LoadingViewModel : GameViewModel()
+    object GameNotStartedViewModel : GameViewModel()
     class ErrorViewModel(val errorMessage: String = "") : GameViewModel()
     class GameOverViewModel(val score: String = "0") : GameViewModel()
 }
