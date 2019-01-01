@@ -2,13 +2,16 @@ package com.impraise.suprdemo.scenes.ui
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
+import android.view.animation.AnimationUtils
 import com.impraise.supr.game.scenes.presentation.GameScene
 import com.impraise.supr.game.scenes.presentation.GameSceneInteraction
 import com.impraise.supr.game.scenes.presentation.model.GameViewModel
@@ -30,6 +33,8 @@ class GameActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
+
+        options.applyAnimation(this)
 
         scene = ViewModelProviders.of(this, SceneFactory()).get(GameScene::class.java)
 
@@ -69,6 +74,8 @@ class GameActivity : AppCompatActivity() {
         start_game_screen.visibility = View.GONE
         options.visibility = View.GONE
         result_game_screen.visibility = View.GONE
+        avatar.visibility = View.GONE
+        continueButton.visibility = View.GONE
     }
 
     private fun showInitialState() {
@@ -106,7 +113,12 @@ class GameActivity : AppCompatActivity() {
 
         adapter.setOptions(viewModel.options)
 
-        continueButton.visibility = if (viewModel.showContinueButton) View.VISIBLE else View.INVISIBLE
+        if (viewModel.showContinueButton) {
+            continueButton.visibility = View.VISIBLE
+        } else {
+            continueButton.visibility = View.INVISIBLE
+            options.applyAnimation(this)
+        }
     }
 
     private fun showScore(viewModel: GameViewModel.GameOverViewModel) {
@@ -117,5 +129,11 @@ class GameActivity : AppCompatActivity() {
         options.visibility = View.GONE
         result_game_screen.visibility = View.VISIBLE
         avatar.visibility = View.GONE
+    }
+
+    private fun RecyclerView.applyAnimation(context: Context) {
+        val resId = R.anim.layout_animation_bottom_up
+        val animation = AnimationUtils.loadLayoutAnimation(context, resId)
+        this.layoutAnimation = animation
     }
 }

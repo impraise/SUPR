@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_red_light">
 
     <LinearLayout
         android:id="@+id/start_game_screen"
@@ -13,16 +14,18 @@
         android:orientation="vertical"
         android:visibility="gone">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/start_game" />
-
         <Button
             android:id="@+id/start_game_btn"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/start_game" />
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/button_normal_bg"
+            android:text="@string/start_game"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/button_text_size_regular"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
 
     </LinearLayout>
 
@@ -44,7 +47,7 @@
         android:id="@+id/avatar"
         android:layout_width="@dimen/avatar_size"
         android:layout_height="@dimen/avatar_size"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="44dp"
         android:src="@drawable/no_person"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -55,6 +58,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
+        android:layoutAnimation="@anim/layout_animation_bottom_up"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/avatar" />
@@ -62,15 +68,17 @@
     <Button
         android:id="@+id/continue_btn"
         android:layout_width="0dp"
-        android:layout_height="38dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/colorPrimary"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/button_normal_bg"
         android:text="@string/continue_text"
+        android:textColor="#FFFFFF"
+        android:textSize="@dimen/button_text_size_regular"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/options" />
 
@@ -86,13 +94,23 @@
             android:id="@+id/score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/start_game" />
+            android:layout_marginBottom="@dimen/fab_margin"
+            android:text="@string/start_game"
+            android:textSize="@dimen/button_text_size_regular"
+            tools:text="@string/your_score" />
 
         <Button
             android:id="@+id/new_game_btn"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/new_game" />
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/button_normal_bg"
+            android:text="@string/new_game"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/button_text_size_regular"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
 
     </LinearLayout>
 

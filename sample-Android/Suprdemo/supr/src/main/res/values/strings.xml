@@ -2,4 +2,5 @@
     <string name="app_name">supr</string>
     <string name="domain.generic_error_message">An unknown error occurred</string>
     <string name="domain.game.creation.error">Error: Not possible to create a game</string>
+    <string name="your_score">Your Score: %d</string>
 </resources>
