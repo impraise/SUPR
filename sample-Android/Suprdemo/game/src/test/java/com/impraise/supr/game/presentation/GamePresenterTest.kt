@@ -1,6 +1,7 @@
 package com.impraise.supr.game.presentation
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
+import android.content.Context
 import com.impraise.supr.data.Result
 import com.impraise.supr.game.scenes.domain.model.Game
 import com.impraise.supr.game.scenes.domain.model.GameState
@@ -8,6 +9,8 @@ import com.impraise.supr.game.scenes.domain.model.Score
 import com.impraise.supr.game.scenes.presentation.GamePresenter
 import com.impraise.supr.game.scenes.presentation.model.GameViewModel
 import com.impraise.suprdemo.scenes.domain.model.*
+import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.mock
 import junit.framework.Assert.*
 import org.junit.Before
 import org.junit.Rule
@@ -15,6 +18,8 @@ import org.junit.Test
 import org.junit.rules.TestRule
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import org.mockito.BDDMockito.*
+import java.lang.ref.WeakReference
 
 @RunWith(JUnit4::class)
 class GamePresenterTest {
@@ -23,12 +28,17 @@ class GamePresenterTest {
     @JvmField
     var rule: TestRule = InstantTaskExecutorRule()
 
-    var gamePresenter: GamePresenter = GamePresenter()
+    lateinit var context: Context
+
+    lateinit var gamePresenter: GamePresenter
     var result: GameViewModel? = null
 
     @Before
     fun setup() {
-        gamePresenter = GamePresenter()
+        context = mock<Context>().also {
+            given(it.getString(any(), any())).willReturn("")
+        }
+        gamePresenter = GamePresenter(WeakReference(context))
         gamePresenter.viewModelStream.observeForever {
             result = it
         }

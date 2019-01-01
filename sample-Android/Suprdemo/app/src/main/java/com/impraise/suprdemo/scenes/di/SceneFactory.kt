@@ -2,14 +2,21 @@ package com.impraise.suprdemo.scenes.di
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
+import com.impraise.supr.common.Pagination
+import com.impraise.supr.data.PageDetail
 import com.impraise.supr.data.PaginatedRepository
+import com.impraise.supr.data.PaginatedResult
 import com.impraise.supr.game.scenes.data.model.Member
 import com.impraise.supr.game.scenes.domain.*
 import com.impraise.supr.game.scenes.presentation.GamePresenter
 import com.impraise.supr.game.scenes.presentation.GameScene
+import com.impraise.suprdemo.GameApplication
 import com.impraise.suprdemo.scenes.data.*
+import io.reactivex.Flowable
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import java.lang.ref.WeakReference
+import java.util.*
 
 /**
  * Created by guilhermebranco on 3/13/18.
@@ -27,7 +34,7 @@ class SceneFactory : ViewModelProvider.Factory {
         GameScene(createGameUseCase = CreateGameUseCase(loadMembersUseCase,
                 CreateRoundUseCase(roundCreationHelper = RoundCreationHelper(imageAvailableCondition)),
                 gameCreationHelper = GameCreationHelper(imageAvailableCondition)),
-                gamePresenter = GamePresenter())
+                gamePresenter = GamePresenter(WeakReference(GameApplication.instance)))
     }
 
     private val loadMembersUseCase: LoadRandomPageOfMembersUseCase by lazy {
@@ -35,7 +42,8 @@ class SceneFactory : ViewModelProvider.Factory {
     }
 
     private val repository: PaginatedRepository<Member> by lazy {
-        MarvelApiRepository(provideOkHttpClient(loggingInterceptor))
+        InMemoryMemberRepository()
+        //MarvelApiRepository(provideOkHttpClient(loggingInterceptor))
     }
 
     private fun provideOkHttpClient(interceptor: HttpLoggingInterceptor): OkHttpClient {
@@ -55,4 +63,32 @@ class SceneFactory : ViewModelProvider.Factory {
         ImageAvailableCondition()
     }
 }
+
+class InMemoryMemberRepository: PaginatedRepository<Member> {
+
+    override fun fetch(pagination: Pagination): Flowable<PaginatedResult<Member>> {
+        val members = mutableListOf<Member>()
+        for (index in 1..40) {
+            val random = Random().nextInt(2)
+            members.add(Member("$index Test teteteteteteteteteteete", images[random]))
+        }
+        return Flowable.just(PaginatedResult.Success(members, PageDetail(false, 50)))
+    }
+
+    /*override fun all(): Flowable<ResultList<Member>> {
+        val members = mutableListOf<Member>()
+        for (index in 1..40) {
+            val random = Random().nextInt(2)
+            members.add(Member("$index Test teteteteteteteteteteete", images[random]))
+        }
+        return Flowable.just(ResultList.Success(members))
+    }*/
+}
+
+val images = listOf(
+        "https://upload.wikimedia.org/wikipedia/commons/3/3d/TonyRamosPorAndreaFarias.jpg",
+        "https://www.famousbirthdays.com/faces/carrey-jim-image.jpg",
+        "http://www.portaldotocantins.com/wp-content/uploads/2016/04/Faust%C3%A3o.jpg"
+)
+
 

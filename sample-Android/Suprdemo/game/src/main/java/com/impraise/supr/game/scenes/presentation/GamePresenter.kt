@@ -2,16 +2,19 @@ package com.impraise.supr.game.scenes.presentation
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
+import android.content.Context
 import com.impraise.supr.data.Result
+import com.impraise.supr.game.R
 import com.impraise.supr.game.scenes.domain.model.GameState
 import com.impraise.supr.game.scenes.presentation.model.GameViewModel
 import com.impraise.supr.presentation.Presenter
 import com.impraise.suprdemo.scenes.domain.model.Option
+import java.lang.ref.WeakReference
 
 /**
  * Created by guilhermebranco on 3/12/18.
  */
-class GamePresenter : Presenter<Result<GameState>, GameViewModel> {
+class GamePresenter(private var context: WeakReference<Context>) : Presenter<Result<GameState>, GameViewModel> {
 
     private val liveData = MutableLiveData<GameViewModel>()
 
@@ -31,7 +34,8 @@ class GamePresenter : Presenter<Result<GameState>, GameViewModel> {
 
     private fun GameState.toViewModel(): GameViewModel {
         return if (this.gameOver) {
-            GameViewModel.GameOverViewModel(this.score.total.toString())
+            val score = context.get()?.getString(R.string.your_score, this.score.total) ?: ""
+            GameViewModel.GameOverViewModel(score)
         } else if (this == GameState.EMPTY_GAME) {
             GameViewModel.GameNotStartedViewModel
         } else if (!this.answeredRound) {

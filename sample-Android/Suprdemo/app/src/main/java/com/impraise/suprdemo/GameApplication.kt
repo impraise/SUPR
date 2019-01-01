@@ -4,7 +4,12 @@ import android.app.Application
 
 class GameApplication : Application() {
 
-    val instance by lazy {
-        this
+    companion object {
+        lateinit var instance: GameApplication
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        instance = this
     }
 }
