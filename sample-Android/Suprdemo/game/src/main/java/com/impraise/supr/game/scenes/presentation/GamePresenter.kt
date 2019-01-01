@@ -26,14 +26,14 @@ class GamePresenter : Presenter<Result<GameState>, GameViewModel> {
     }
 
     override fun loading() {
-        liveData.postValue(GameViewModel.LoadingViewModel())
+        liveData.postValue(GameViewModel.LoadingViewModel)
     }
 
     private fun GameState.toViewModel(): GameViewModel {
         return if (this.gameOver) {
             GameViewModel.GameOverViewModel(this.score.total.toString())
         } else if (this == GameState.EMPTY_GAME) {
-            GameViewModel.GameNotStartedViewModel()
+            GameViewModel.GameNotStartedViewModel
         } else if (!this.answeredRound) {
             GameViewModel.GameStateViewModel(this.currentRound.avatarUrl, this.currentOptions.map {
                 Option.Undefined(it.name)
