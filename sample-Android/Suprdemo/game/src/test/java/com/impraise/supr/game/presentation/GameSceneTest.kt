@@ -41,7 +41,11 @@ class GameSceneTest {
         initMocks(this)
         captor = argumentCaptor()
         game = mock()
-        given(game.currentState).willReturn(GameState.EMPTY_GAME)
+        with(game) {
+            given(currentState).willReturn(GameState.EMPTY_GAME)
+            given(isValid()).willReturn(true)
+        }
+
         given(createGameUseGame.get(Unit)).willReturn(Single.just(Result.Success(game)))
         scene = GameScene(gamePresenter, createGameUseGame)
     }

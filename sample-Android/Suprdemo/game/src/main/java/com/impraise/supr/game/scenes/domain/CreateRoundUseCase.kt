@@ -56,11 +56,3 @@ open class RoundCreationHelper(private val condition: Condition<Member>) {
         fun satisfied(param: T): Boolean
     }
 }
-
-class ImageAvailableCondition : RoundCreationHelper.Condition<Member> {
-
-    override fun satisfied(param: Member): Boolean {
-        return param.avatarUrl.isNotEmpty()
-                && !param.avatarUrl.contains("image_not_available")
-    }
-}

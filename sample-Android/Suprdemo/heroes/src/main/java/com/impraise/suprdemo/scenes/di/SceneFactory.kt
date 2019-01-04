@@ -12,6 +12,7 @@ import com.impraise.supr.game.scenes.presentation.GamePresenter
 import com.impraise.supr.game.scenes.presentation.GameScene
 import com.impraise.suprdemo.HeroesApplication
 import com.impraise.suprdemo.scenes.data.*
+import com.impraise.suprdemo.scenes.domain.ImageAvailableCondition
 import io.reactivex.Flowable
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
