@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
+import android.widget.Toast
 import com.impraise.supr.game.scenes.presentation.GameScene
 import com.impraise.supr.game.scenes.presentation.GameSceneInteraction
 import com.impraise.supr.game.scenes.presentation.model.GameViewModel
@@ -26,6 +27,10 @@ import kotlinx.android.synthetic.main.activity_game.*
 import java.lang.Exception
 
 class GameActivity : AppCompatActivity() {
+
+    companion object {
+        private const val TAG = "GameActivity"
+    }
 
     private lateinit var scene: GameScene
     private lateinit var adapter: RoundOptionsAdapter
@@ -50,6 +55,7 @@ class GameActivity : AppCompatActivity() {
                     is GameViewModel.LoadingViewModel -> loading()
                     is GameViewModel.GameStateViewModel -> showGame(viewModel)
                     is GameViewModel.GameOverViewModel -> showScore(viewModel)
+                    is GameViewModel.ErrorViewModel -> showError(viewModel)
                 }
             }
         })
@@ -107,7 +113,7 @@ class GameActivity : AppCompatActivity() {
                     }
 
                     override fun onError(e: Exception?) {
-                        Log.e("GameActivity", e?.message.orEmpty())
+                        Log.e(TAG, e?.message.orEmpty())
                     }
                 })
 
@@ -129,6 +135,18 @@ class GameActivity : AppCompatActivity() {
         options.visibility = View.GONE
         result_game_screen.visibility = View.VISIBLE
         avatar.visibility = View.GONE
+    }
+
+    private fun showError(viewModel: GameViewModel.ErrorViewModel) {
+        Log.e(TAG, "Error when loading game: ${viewModel.errorMessage}")
+        continueButton.visibility = View.GONE
+        start_game_screen.visibility = View.GONE
+        loading_screen.visibility = View.GONE
+        options.visibility = View.GONE
+        result_game_screen.visibility = View.GONE
+        avatar.visibility = View.GONE
+        start_game_screen.visibility = View.VISIBLE
+        Toast.makeText(this, "Error when loading the game", Toast.LENGTH_LONG).show()
     }
 
     private fun RecyclerView.applyAnimation(context: Context) {

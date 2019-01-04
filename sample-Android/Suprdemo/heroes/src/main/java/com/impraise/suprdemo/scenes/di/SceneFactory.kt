@@ -10,7 +10,7 @@ import com.impraise.supr.game.scenes.data.model.Member
 import com.impraise.supr.game.scenes.domain.*
 import com.impraise.supr.game.scenes.presentation.GamePresenter
 import com.impraise.supr.game.scenes.presentation.GameScene
-import com.impraise.suprdemo.GameApplication
+import com.impraise.suprdemo.HeroesApplication
 import com.impraise.suprdemo.scenes.data.*
 import io.reactivex.Flowable
 import okhttp3.OkHttpClient
@@ -34,7 +34,7 @@ class SceneFactory : ViewModelProvider.Factory {
         GameScene(createGameUseCase = CreateGameUseCase(loadMembersUseCase,
                 CreateRoundUseCase(roundCreationHelper = RoundCreationHelper(imageAvailableCondition)),
                 gameCreationHelper = GameCreationHelper(imageAvailableCondition)),
-                gamePresenter = GamePresenter(WeakReference(GameApplication.instance)))
+                gamePresenter = GamePresenter(WeakReference(HeroesApplication.instance)))
     }
 
     private val loadMembersUseCase: LoadRandomPageOfMembersUseCase by lazy {
@@ -42,8 +42,8 @@ class SceneFactory : ViewModelProvider.Factory {
     }
 
     private val repository: PaginatedRepository<Member> by lazy {
-        InMemoryMemberRepository()
-        //MarvelApiRepository(provideOkHttpClient(loggingInterceptor))
+        //InMemoryMemberRepository()
+        MarvelApiRepository(provideOkHttpClient(loggingInterceptor))
     }
 
     private fun provideOkHttpClient(interceptor: HttpLoggingInterceptor): OkHttpClient {

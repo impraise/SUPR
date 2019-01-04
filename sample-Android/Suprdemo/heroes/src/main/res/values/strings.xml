@@ -5,4 +5,5 @@
     <string name="start_game">Start Game</string>
     <string name="continue_text">Continue</string>
     <string name="new_game">Start New Game</string>
+    <string name="retry">Retry</string>
 </resources>

@@ -2,10 +2,10 @@ package com.impraise.suprdemo
 
 import android.app.Application
 
-class GameApplication : Application() {
+class HeroesApplication : Application() {
 
     companion object {
-        lateinit var instance: GameApplication
+        lateinit var instance: HeroesApplication
     }
 
     override fun onCreate() {

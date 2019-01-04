@@ -1,1 +1,1 @@
-include ':app', ':supr', ':game'
+include ':heroes', ':supr', ':game'
