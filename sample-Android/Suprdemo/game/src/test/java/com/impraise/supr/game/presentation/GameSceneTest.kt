@@ -47,28 +47,28 @@ class GameSceneTest {
     }
 
     @Test
-    fun shouldCallCreateGame() {
+    fun `should call create game`() {
         scene.onInteraction(GameSceneInteraction.OnLoad())
 
         verify(createGameUseGame).get(Unit)
     }
 
     @Test
-    fun shouldEmitLoading() {
+    fun `should emit loading`() {
         scene.onInteraction(GameSceneInteraction.OnLoad())
 
         verify(gamePresenter).loading()
     }
 
     @Test
-    fun shouldCallGameState() {
+    fun `should call game state`() {
         scene.onInteraction(GameSceneInteraction.OnLoad())
         scene.onInteraction(GameSceneInteraction.StartGame())
         verify(game).currentState
     }
 
     @Test
-    fun shouldNotCallGameState() {
+    fun `should not call game state`() {
         scene.onInteraction(GameSceneInteraction.OnLoad())
 
         verify(gamePresenter).present(captor.capture())
@@ -79,7 +79,7 @@ class GameSceneTest {
     }
 
     @Test
-    fun shouldEmmitErrorWhenResultError() {
+    fun `should emmit error when result error`() {
         given(createGameUseGame.get(Unit)).willReturn(Single.just(Result.Error(Exception())))
 
         scene = GameScene(gamePresenter, createGameUseGame)
@@ -91,7 +91,7 @@ class GameSceneTest {
     }
 
     @Test
-    fun shouldEmmitErrorWhenFailred() {
+    fun `should emmit error when failure`() {
         given(createGameUseGame.get(Unit)).willReturn(Single.error(Exception()))
 
         scene = GameScene(gamePresenter, createGameUseGame)
@@ -100,5 +100,15 @@ class GameSceneTest {
         verify(gamePresenter).present(captor.capture())
 
         assertTrue(captor.firstValue is Result.Error)
+    }
+
+    @Test
+    fun `should recreate the game when trying to start an invalid game`() {
+        given(createGameUseGame.get(Unit)).willReturn(Single.just(Result.Success(Game(emptyList()))))
+
+        scene.onInteraction(GameSceneInteraction.OnLoad())
+        scene.onInteraction(GameSceneInteraction.StartGame())
+
+        verify(createGameUseGame, times(2)).get(Unit)
     }
 }

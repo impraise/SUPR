@@ -117,6 +117,11 @@ class GameTest {
         assertEquals(firstAnswer, secondAnswer)
     }
 
+    @Test
+    fun `should return invalid when rounds are empty`() {
+        assertFalse(Game(emptyList()).isValid())
+    }
+
     private fun fiveRounds(): List<Round> {
         return (1..5).map { Round(it.toString(), emptyList()) }
     }

@@ -54,6 +54,10 @@ class Game(private val rounds: List<Round>) {
         }
     }
 
+    fun isValid(): Boolean {
+        return  rounds.isNotEmpty() && currentState != GameState.EMPTY_GAME
+    }
+
     private fun isGameOver(): Boolean {
         return currentRoundIndex == rounds.size - 1 && roundsAnswered[currentRoundIndex]
     }

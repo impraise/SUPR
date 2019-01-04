@@ -26,7 +26,8 @@ class GameScene(val gamePresenter: GamePresenter,
 
             is GameSceneInteraction.StartGame -> {
                 game?.let {
-                    gamePresenter.present(Result.Success(it.currentState))
+                    if (it.isValid()) gamePresenter.present(Result.Success(it.currentState))
+                    else createGame()
                 }
             }
 
