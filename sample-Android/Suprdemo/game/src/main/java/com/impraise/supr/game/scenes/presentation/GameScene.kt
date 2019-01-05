@@ -21,7 +21,7 @@ class GameScene(val gamePresenter: GamePresenter,
         when (interaction) {
 
             is GameSceneInteraction.OnLoad -> {
-                createGame()
+                if (game == null || game?.isValid() == false) createGame()
             }
 
             is GameSceneInteraction.StartGame -> {

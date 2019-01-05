@@ -115,4 +115,12 @@ class GameSceneTest {
 
         verify(createGameUseGame, times(2)).get(Unit)
     }
+
+    @Test
+    fun `should ignore onLoad event when game already created`() {
+        scene.onInteraction(GameSceneInteraction.OnLoad())
+        scene.onInteraction(GameSceneInteraction.OnLoad())
+
+        verify(createGameUseGame).get(Unit)
+    }
 }
