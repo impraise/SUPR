@@ -14,19 +14,18 @@ Scenes are created inside Activities or Fragments. A scene can be seen as a scre
 
 ```kotlin
 ViewModelProviders.of(activity, SceneFactory(user))
-		.get(PrivateNoteListScene::class.java)
+		.get(GameScene::class.java)
 ```
 
 A `Scene` handles Interactions and delegates calls to the correct components. Also, it coordinates view states. For instance, when it receives an OnLoad interaction, it posts a ViewModelState.Loading state to the presenter so that view is notified and shows loading state:
 
 ```kotlin
-override fun onInteraction(interaction: PrivateNoteListInteraction) {    
-		when(interaction) {        
-			is OnLoad -> {            
-				presenter.present(ViewModelEntityState.Loading, DomainResultList.success(emptyList()))            
-				loadPrivateNotesUseCase.doYourJob(notesAboutUser.id)        
-		}
-}
+override fun onInteraction(interaction: GameSceneInteraction) {
+        when (interaction) {
+
+            is GameSceneInteraction.OnLoad -> {
+                ...
+            }
 ```
 
 ### Domain
@@ -55,19 +54,17 @@ There are a few classes that help you when implementing use cases:
 - `ReactiveUseCase` returns data as `io.reactivex.Single`
 
 ```kotlin
-class LoadPrivateNoteListUseCase(...): ParameterizedUseCase<String, ResultList<PrivateNote>>() {    
-	override fun get(param: String) {        
-			getPrivateNotes(param)              
-			.subscribe({ domainResult ->                    
-					complete(domainResult)                
-			}, { error ->                    
-					complete(DomainResultList.error(error, emptyList()))                
-			}).addTo(subscriptions)    
-	} 
-   
-	private fun complete(domainResultList: DomainResultList<PrivateNote>) {
-	   callback?.let { it(domainResultList) } }
-	}
+class LoadRandomPageOfMembersUseCase(...): ReactiveUseCase<Unit, ResultList<List<Member>>> {
+
+    override fun get(param: Unit): Single<ResultList<List<Member>>> {
+        return repository
+                .flatMap { result ->
+                    when (result) {
+                        is PaginatedResult.Success -> ResultList.Success(it)
+                        is PaginatedResult.Error -> Flowable.fromIterable(emptyList())
+                    }
+                }
+    }
 }
 ```
 
