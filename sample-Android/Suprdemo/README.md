@@ -1,4 +1,12 @@
-# SUPR - Android
+# Heroes
+
+![Phone Screenshot](https://github.com/impraise/SUPR/blob/master/assets/game.gif)
+
+"Heroes" is an implementation of a game using ***SUPR*** architecture. It serves as a guideline on how to use ***SUPR*** components. The content is provided by **The Marvel Comics API**.
+
+Before you run the app, make sure you get a valid API Key following the steps at [developer marvel]( https://developer.marvel.com/documentation/getting_started).
+
+Update [custom_api.properties](https://github.com/impraise/SUPR/blob/master/sample-Android/Suprdemo/heroes/custom_api.properties) file with your keys, go to [SceneFactory](SUPR/sample-Android/Suprdemo/heroes/src/main/java/com/impraise/suprdemo/scenes/di/SceneFactory.kt) and remove the comment to inject the proper `MarvelApiRepository`. 
 
 ### Presentation
 
