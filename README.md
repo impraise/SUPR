@@ -1,5 +1,7 @@
 # SUPR
 
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 **SUPR** architecture is based on the [Clean Architecture](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html) proposed by Uncle Bob.
 
 The main goal is to have a clear separation of concerns. There are clear boundaries between the project’s layers. Layers are isolated from each other which makes them easy to test and maintain.
@@ -47,3 +49,19 @@ All the business logic are here. This is pure Kotlin / Swift without any Android
 
 ## Data
 All data needed for the application comes from this layer through a Repository implementation. It makes it transparent to other layers where the data comes from. It can be retrieve from cache or API.
+
+## License
+
+    Copyright (C) 2019 Impraise
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
