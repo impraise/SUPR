@@ -43,8 +43,8 @@ class SceneFactory : ViewModelProvider.Factory {
     }
 
     private val repository: PaginatedRepository<Member> by lazy {
-        //InMemoryMemberRepository()
-        MarvelApiRepository(provideOkHttpClient(loggingInterceptor))
+        InMemoryMemberRepository()
+        //MarvelApiRepository(provideOkHttpClient(loggingInterceptor))
     }
 
     private fun provideOkHttpClient(interceptor: HttpLoggingInterceptor): OkHttpClient {
@@ -71,25 +71,16 @@ class InMemoryMemberRepository: PaginatedRepository<Member> {
         val members = mutableListOf<Member>()
         for (index in 1..40) {
             val random = Random().nextInt(2)
-            members.add(Member("$index Test teteteteteteteteteteete", images[random]))
+            members.add(Member("Test $index", images[random]))
         }
         return Flowable.just(PaginatedResult.Success(members, PageDetail(false, 50)))
     }
-
-    /*override fun all(): Flowable<ResultList<Member>> {
-        val members = mutableListOf<Member>()
-        for (index in 1..40) {
-            val random = Random().nextInt(2)
-            members.add(Member("$index Test teteteteteteteteteteete", images[random]))
-        }
-        return Flowable.just(ResultList.Success(members))
-    }*/
 }
 
 val images = listOf(
-        "https://upload.wikimedia.org/wikipedia/commons/3/3d/TonyRamosPorAndreaFarias.jpg",
+        "http://images6.fanpop.com/image/photos/34400000/spongebob-spongebob-squarepants-34425372-2000-1873.jpg",
         "https://www.famousbirthdays.com/faces/carrey-jim-image.jpg",
-        "http://www.portaldotocantins.com/wp-content/uploads/2016/04/Faust%C3%A3o.jpg"
+        "https://www.writeups.org/wp-content/uploads/Rick-Sanchez-Rick-and-Morty.jpg"
 )
 
 
