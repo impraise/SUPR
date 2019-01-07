@@ -123,4 +123,16 @@ class GameSceneTest {
 
         verify(createGameUseGame).get(Unit)
     }
+
+    @Test
+    fun `should create a new game when current game is over`() {
+        val state = GameState(gameOver = true)
+        given(game.currentState).willReturn(state)
+        given(createGameUseGame.get(Unit)).willReturn(Single.just(Result.Success(game)))
+
+        scene.onInteraction(GameSceneInteraction.OnLoad())
+        scene.onInteraction(GameSceneInteraction.OnLoad())
+
+        verify(createGameUseGame, times(2)).get(Unit)
+    }
 }
