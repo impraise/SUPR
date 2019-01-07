@@ -6,7 +6,7 @@
 
 The main goal is to have a clear separation of concerns. There are clear boundaries between the project’s layers. Layers are isolated from each other which makes them easy to test and maintain.
 
-The project has 3 main layers: Presentation, Domain, and Data. Each one of them has a clear responsibility and works separately from the others.
+The architecture has 3 main layers: Presentation, Domain, and Data. Each one of them has a clear responsibility and works separately from the others.
 
 <p align="center">
 <img src="https://github.com/impraise/SUPR/blob/master/assets/layers.png" width="60%" height="60%" alt="Flow of interaction and type of result from each layer"/>
@@ -38,7 +38,7 @@ it makes use of the Android / iOS Frameworks. Here all UI components are created
 It relies on “Interaction” objects to interact with presentation layer. There are 2 types of `Interaction`'s: `InteractionType.Lifecycle` and `InteractionType.Action`.
 
 ## Presentation
-This layer’s responsibility is to handle interactions from “outside”, most of time UI interactions, and communicates with Domain layer in order to retrieve and format data that will be shown to the user. It uses UseCase classes to retrieve data and give it to Presenter's where data will be formatted and emitted so that the view can consume it in a proper format.
+This layer’s responsibility is to handle interactions from “outside”, most of the time UI interactions, and to communicate with Domain layer in order to retrieve and format data that will be shown to the user. It uses UseCase classes to retrieve data and give it to `Presenter`s where data will be formatted and emitted so that the view can consume it in a proper format.
 
 <p align="center">
 <img src="https://github.com/impraise/SUPR/blob/master/assets/presentation_flow.png" width="60%" height="60%" alt="Presentation Flow"/>
