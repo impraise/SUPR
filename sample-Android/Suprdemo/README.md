@@ -30,29 +30,16 @@ override fun onInteraction(interaction: GameSceneInteraction) {
 ```
 
 ### Domain
-`UseCase` is the base class for use cases. When creating an use case you need to inform the type <Object> of the result object. This is the type that will be return in the callback:
+`ReactiveUseCase` is the base interface for use cases. When creating an use case you need to inform two types:`<ParamType>` for your argument (`Unit` if you don't need one), and `<ResponseType>` for the result object. `ResponseType` is the type of the object that is emitted by the `Single` Reactive-Stream: 
 
 ```kotlin
-abstract class UseCase<Object>: DisposableUseCase {
+interface ReactiveUseCase<in ParamType, ResponseType> {
 
-    protected val subscriptions = CompositeDisposable()
-
-    override fun dispose() {
-        if (!subscriptions.isDisposed) {
-            subscriptions.dispose()
-            subscriptions.clear()
-        }
-    }
+    fun get(param: ParamType): Single<ResponseType>
 }
 ```
 
-The result data of an use case must always be wrapped in a `Result` object (You can also use `ResultList` if the result is a collection). 
-
-There are a few classes that help you when implementing use cases:
-
-- `SimpleUseCase` executes a business logic and return data using the callback.
-- `ParameterizedUseCase` receives a parameter in order to execute its business logic. Returns data using the callback.
-- `ReactiveUseCase` returns data as `io.reactivex.Single`
+The result data of an use case must always be wrapped in a `Result` object (You can also use `ResultList` if the result is a collection).
 
 ```kotlin
 class LoadRandomPageOfMembersUseCase(...): ReactiveUseCase<Unit, ResultList<List<Member>>> {
