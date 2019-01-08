@@ -17,13 +17,14 @@ ViewModelProviders.of(activity, SceneFactory(user))
 		.get(GameScene::class.java)
 ```
 
-A `Scene` handles Interactions and delegates calls to the correct components. Also, it coordinates view states. For instance, when it receives an OnLoad interaction, it posts a ViewModelState.Loading state to the presenter so that view is notified and shows loading state:
+A `Scene` handles Interactions and delegates calls to the correct components. Also, it coordinates view states. For instance, when it receives an OnLoad interaction, it calls the `loading()` function at `Presenter` so that the view is notified and shows a loading state:
 
 ```kotlin
 override fun onInteraction(interaction: GameSceneInteraction) {
         when (interaction) {
 
             is GameSceneInteraction.OnLoad -> {
+		gamePresenter.loading()
                 ...
             }
 ```
