@@ -17,7 +17,7 @@ ViewModelProviders.of(activity, SceneFactory(user))
 		.get(GameScene::class.java)
 ```
 
-A `Scene` handles Interactions and delegates calls to the correct components. Also, it coordinates view states. For instance, when it receives an OnLoad interaction, it calls the `loading()` function at `Presenter` so that the view is notified and shows a loading state:
+A `Scene` handles Interactions and delegates calls to the correct components. Also, it coordinates view states. For instance, when it receives an OnLoad interaction, it calls the `loading()` function on `Presenter` so that the view is notified and shows a loading state:
 
 ```kotlin
 override fun onInteraction(interaction: GameSceneInteraction) {
@@ -27,6 +27,18 @@ override fun onInteraction(interaction: GameSceneInteraction) {
 		gamePresenter.loading()
                 ...
             }
+```
+
+When subscribing to an `UseCase`, `addTo(subscriptions)` function must be called so that `Scene` can unsubscribe to any subscription if necessary:
+
+```kotlin
+	createGameUseCase
+                .get(Unit)
+                .doOnSubscribe {
+                    gamePresenter.loading()
+                }
+                .subscribe(...)
+		.addTo(subscriptions)
 ```
 
 ### Domain
@@ -49,14 +61,12 @@ class LoadRandomPageOfMembersUseCase(...): ReactiveUseCase<Unit, ResultList<List
                 .flatMap { result ->
                     when (result) {
                         is PaginatedResult.Success -> ResultList.Success(it)
-                        is PaginatedResult.Error -> Flowable.fromIterable(emptyList())
+                        is PaginatedResult.Error -> Result.Error(result.error, GameState.EMPTY_GAME)
                     }
                 }
     }
 }
 ```
-
-When subscribing to an Observable addTo(subscriptions) function must to be called so that we can use UseCase.dispose() and unsubscribe to any subscription if necessary.
 
 ### Data
 The result data of a repository must always be wrapped in a DataResult object (You can also use DataResultList if the result is a collection). 
