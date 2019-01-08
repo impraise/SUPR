@@ -6,7 +6,7 @@
 
 Before you run the app, make sure you get a valid API Key following the steps at [developer marvel]( https://developer.marvel.com/documentation/getting_started).
 
-Update [custom_api.properties](https://github.com/impraise/SUPR/blob/master/sample-Android/Suprdemo/heroes/custom_api.properties) file with your keys, go to [SceneFactory](SUPR/sample-Android/Suprdemo/heroes/src/main/java/com/impraise/suprdemo/scenes/di/SceneFactory.kt) and remove the comment to inject the proper `MarvelApiRepository`. 
+Update [custom_api.properties](https://github.com/impraise/SUPR/blob/master/sample-Android/Suprdemo/heroes/custom_api.properties) file with your keys, go to [SceneFactory](https://github.com/impraise/SUPR/blob/master/sample-Android/Suprdemo/heroes/src/main/java/com/impraise/suprdemo/scenes/di/SceneFactory.kt) and remove the comment to inject the proper `MarvelApiRepository`. 
 
 ### Presentation
 
