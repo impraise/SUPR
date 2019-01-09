@@ -1,6 +1,4 @@
-<p align="center">
-<img src="https://github.com/impraise/SUPR/blob/master/assets/logo_supr.png" width="30%" height="30%" alt="SUPR"/>
-</p>
+# SUPR
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
