@@ -23,18 +23,18 @@ With a cross-platform approach in mind, the architecture keeps specific implemen
 ## Main Components
 
 ### Scene
-A scene is the entry point of interactions. It is responsible for orchestrating the Use Cases, triggering the Presenters accordingly and retaining state.
+A **Scene** is the entry point of interactions. It is responsible for orchestrating the Use Cases, triggering the Presenters accordingly and retaining state.
 
 ### Use Case
-A Use Case is the member of our architecture responsible for performing the tasks that need to be done to fulfill our specific business rules. To reuse, replace and write tests to it, a Use Case defines its input and output ports, and it's written without the dependency of any platform related capabilities.
+A **Use Case** is the member of our architecture responsible for performing the tasks that need to be done to fulfill our specific business rules. To reuse, replace and write tests to it, a Use Case defines its input and output ports, and it's written without the dependency of any platform related capabilities.
 
 ### Presenter
-A presenter formats data in a way that is close to the idea of how it should be displayed, but without knowing the concrete use of it.
+A **Presenter** formats data in a way that is close to the idea of how it should be displayed, but without knowing the concrete use of it.
 
 ### Repository
-A repository is responsible for managing data and making it transparent to external layers independently of the strategy used to operate. The repository decides what the best way to provide the result is and do it using an explicit interface.
+A **Repository** is responsible for managing data and making it transparent to external layers independently of the strategy used to operate. The repository decides what the best way to provide the result is and do it using an explicit interface.
 
-## Platform
+## Platform implementation
 It makes use of the Android / iOS Frameworks. Here all UI components are created and views are rendered. Here, scenes are created and views can react to models emitted by `Presenter`s.
 
 ## Presentation
