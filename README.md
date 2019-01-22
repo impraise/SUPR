@@ -2,8 +2,6 @@
 <img src="https://github.com/impraise/SUPR/blob/master/assets/logo_supr.png" width="30%" height="30%" alt="SUPR"/>
 </p>
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-
 **SUPR** is a cross-platform architecture designed to facilitate collaboration between Android & iOS developers with a focus on testability. **SUPR** is based on the [Clean Architecture](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html) proposed by Uncle Bob.
 
 The main goal is to have a clear separation of concerns. There are clear boundaries between the project’s layers. These layers are isolated from each other which makes them easy to test and maintain.
