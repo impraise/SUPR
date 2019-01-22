@@ -22,18 +22,16 @@ A `Scene` handles Interactions and delegates calls to the correct components. Al
 ```kotlin
 override fun onInteraction(interaction: GameSceneInteraction) {
         when (interaction) {
-
-            is GameSceneInteraction.OnLoad -> {
-		gamePresenter.loading()
-                ...
-            }
+            is GameSceneInteraction.OnLoad -> gamePresenter.loading()
+            ...
+        }
 ```
 
 When subscribing to an `UseCase`, `addTo(subscriptions)` function must be called so that `Scene` can unsubscribe to any subscription if necessary:
 
 ```kotlin
 	createGameUseCase
-                .get(Unit)
+                .get()
                 .doOnSubscribe {
                     gamePresenter.loading()
                 }
@@ -42,7 +40,16 @@ When subscribing to an `UseCase`, `addTo(subscriptions)` function must be called
 ```
 
 ### Domain
-`ReactiveUseCase` is the base interface for use cases. When creating an use case you need to inform two types:`<ParamType>` for your argument (`Unit` if you don't need one), and `<ResponseType>` for the result object. `ResponseType` is the type of the object that is emitted by the `Single` Reactive-Stream: 
+`SimpleReactiveUseCase` is the base interface for use cases. When creating an use case you need to inform the `<ResponseType>` for the result object. `ResponseType` is the type of the object that is emitted by the `Single` Reactive-Stream: 
+
+```kotlin
+interface SimpleReactiveUseCase<in ParamType, ResponseType> {
+
+    fun get(): Single<ResponseType>
+}
+```
+
+You can also use `ReactiveUseCase` if you need to provide a parameter to your use case (which will be the case most of the time).
 
 ```kotlin
 interface ReactiveUseCase<in ParamType, ResponseType> {
@@ -54,9 +61,9 @@ interface ReactiveUseCase<in ParamType, ResponseType> {
 The result data of an use case must always be wrapped in a `Result` object (You can also use `ResultList` if the result is a collection).
 
 ```kotlin
-class LoadRandomPageOfMembersUseCase(...): ReactiveUseCase<Unit, ResultList<List<Member>>> {
+class LoadRandomPageOfMembersUseCase(...): SimpleReactiveUseCase<ResultList<List<Member>>> {
 
-    override fun get(param: Unit): Single<ResultList<List<Member>>> {
+    override fun get(): Single<ResultList<List<Member>>> {
         return repository
                 .flatMap { result ->
                     when (result) {
