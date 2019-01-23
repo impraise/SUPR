@@ -33,7 +33,7 @@ A **Presenter** formats data in a way that is close to the idea of how it should
 A **Repository** is responsible for managing data and making it transparent to external layers independently of the strategy used to operate. The repository decides what the best way to provide the result is and do it using an explicit interface.
 
 ## Platform implementation
-It makes use of the Android / iOS Frameworks. Here all UI components are created and views are rendered. Here, scenes are created and views can react to models emitted by `Presenter`s.
+**"Platform"** represents everything else that is not part of the **SUPR** architecture. For example, platform specific components such as Android Activities, iOS ViewControllers, etc. Since "Platform" is something outside of our architecture, classes running tests can also represent these "external" components.
 
 ## Presentation
 This layer’s responsibility is to handle interactions from “outside”, most of the time UI interactions, and to communicate with Domain layer in order to retrieve and format data that will be shown to the user. It uses `UseCase` classes to retrieve data and give it to `Presenter`s where data will be formatted and emitted so that the view can consume it in a proper format.
