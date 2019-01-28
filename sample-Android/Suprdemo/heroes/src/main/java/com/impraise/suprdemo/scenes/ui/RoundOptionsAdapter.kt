@@ -1,6 +1,6 @@
 package com.impraise.suprdemo.scenes.ui
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +11,7 @@ import com.impraise.suprdemo.R
 import com.impraise.suprdemo.scenes.domain.model.Option
 import kotlinx.android.synthetic.main.option_item.view.*
 
-class RoundOptionsAdapter(private val gameScene: GameScene) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RoundOptionsAdapter(private val gameScene: GameScene) : androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>() {
 
     private val options: MutableList<Option> = mutableListOf()
 
@@ -21,19 +21,19 @@ class RoundOptionsAdapter(private val gameScene: GameScene) : RecyclerView.Adapt
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): androidx.recyclerview.widget.RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         return OptionViewHolder(layoutInflater.inflate(R.layout.option_item, parent, false), gameScene)
     }
 
     override fun getItemCount() = options.size
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: androidx.recyclerview.widget.RecyclerView.ViewHolder, position: Int) {
         return (holder as OptionViewHolder).bind(options[position])
     }
 }
 
-class OptionViewHolder(private val view: View, private val scene: GameScene) : RecyclerView.ViewHolder(view) {
+class OptionViewHolder(private val view: View, private val scene: GameScene) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
 
     private val optionDescription: TextView = view.optionDescription
 

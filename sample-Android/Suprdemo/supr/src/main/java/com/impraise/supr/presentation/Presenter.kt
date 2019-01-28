@@ -1,6 +1,6 @@
 package com.impraise.supr.presentation
 
-import android.arch.lifecycle.LiveData
+import androidx.lifecycle.LiveData
 
 /**
  * Created by guilhermebranco on 1/18/18.

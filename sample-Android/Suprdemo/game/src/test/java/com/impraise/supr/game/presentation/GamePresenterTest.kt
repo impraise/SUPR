@@ -1,6 +1,6 @@
 package com.impraise.supr.game.presentation
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import android.content.Context
 import com.impraise.supr.data.Result
 import com.impraise.supr.game.scenes.domain.model.Game

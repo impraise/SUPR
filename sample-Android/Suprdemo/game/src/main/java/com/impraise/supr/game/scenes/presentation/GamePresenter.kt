@@ -1,7 +1,7 @@
 package com.impraise.supr.game.scenes.presentation
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import android.content.Context
 import com.impraise.supr.data.Result
 import com.impraise.supr.game.R

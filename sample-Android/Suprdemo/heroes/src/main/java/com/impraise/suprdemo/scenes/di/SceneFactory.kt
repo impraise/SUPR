@@ -1,7 +1,7 @@
 package com.impraise.suprdemo.scenes.di
 
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.impraise.supr.common.Pagination
 import com.impraise.supr.data.PageDetail
 import com.impraise.supr.data.PaginatedRepository
@@ -43,8 +43,8 @@ class SceneFactory : ViewModelProvider.Factory {
     }
 
     private val repository: PaginatedRepository<Member> by lazy {
-        InMemoryMemberRepository()
-        //MarvelApiRepository(provideOkHttpClient(loggingInterceptor))
+        //InMemoryMemberRepository()
+        MarvelApiRepository(provideOkHttpClient(loggingInterceptor))
     }
 
     private fun provideOkHttpClient(interceptor: HttpLoggingInterceptor): OkHttpClient {

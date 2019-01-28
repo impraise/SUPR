@@ -1,14 +1,14 @@
 package com.impraise.suprdemo.scenes.ui
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -45,7 +45,7 @@ class GameActivity : AppCompatActivity() {
 
         adapter = RoundOptionsAdapter(scene).also {
             options.adapter = it
-            options.layoutManager = LinearLayoutManager(this)
+            options.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
         }
 
         scene.gamePresenter.viewModelStream.observe(this, Observer { viewModelEntity ->
@@ -149,7 +149,7 @@ class GameActivity : AppCompatActivity() {
         Toast.makeText(this, "Error when loading the game", Toast.LENGTH_LONG).show()
     }
 
-    private fun RecyclerView.applyAnimation(context: Context) {
+    private fun androidx.recyclerview.widget.RecyclerView.applyAnimation(context: Context) {
         val resId = R.anim.layout_animation_bottom_up
         val animation = AnimationUtils.loadLayoutAnimation(context, resId)
         this.layoutAnimation = animation
