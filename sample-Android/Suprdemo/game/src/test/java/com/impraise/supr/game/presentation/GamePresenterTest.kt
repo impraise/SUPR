@@ -30,13 +30,14 @@ class GamePresenterTest {
 
     lateinit var context: Context
 
-    lateinit var gamePresenter: GamePresenter
-    var result: GameViewModel? = null
+    private lateinit var gamePresenter: GamePresenter
+    private var result: GameViewModel? = null
 
     @Before
     fun setup() {
-        context = mock<Context>().also {
-            given(it.getString(any(), any())).willReturn("")
+        result = null
+        context = mock<Context>().apply {
+            given(this.getString(any(), any())).willReturn("")
         }
         gamePresenter = GamePresenter(WeakReference(context))
         gamePresenter.viewModelStream.observeForever {
@@ -48,7 +49,6 @@ class GamePresenterTest {
     fun shouldShowUndefinedOptionWhenNotAnswer() {
         val round = Round("", listOf(Option.Correct("correct"), Option.Wrong("wrong")))
         val game = Game(listOf(round))
-        var result: GameViewModel? = null
 
         val currentState = game.currentState
 
@@ -67,8 +67,7 @@ class GamePresenterTest {
     fun shouldShowCorrectStateAnswered() {
         val option = Option.Correct("correct")
         val round = Round("", listOf(option, Option.Wrong("wrong")))
-        val game = Game(listOf(round))
-        var result: GameViewModel? = null
+        val game = Game(listOf(round, round))
 
         game.answer(option)
 
