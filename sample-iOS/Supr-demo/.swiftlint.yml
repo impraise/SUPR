@@ -1,0 +1,22 @@
+included:
+  - Supr-demo
+excluded:
+  - Supr-demoTests
+force_cast: warning
+shorthand_operator: warning
+force_try:
+  severity: warning
+file_length:
+  warning: 1250
+  error: 2500
+type_body_length:
+  warning: 500
+  error: 800
+disabled_rules:
+  - line_length
+  - identifier_name
+  - type_name
+  - weak_delegate
+  - nesting
+  - unused_closure_parameter
+  - class_delegate_protocol
